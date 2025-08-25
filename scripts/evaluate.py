@@ -17,42 +17,42 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--evaluation_model", type=str, default="meta-llama/Llama-3.3-70B-Instruct", help="Name of the evaluation model to use")
 parser.add_argument("--model_name", type=str, default="gemini-2.5-flash", help="Name of the model to evaluate")
 parser.add_argument("--leake_correct_answer", type=str, default="False", help="Whether the model had access to the correct answer")
-parser.add_argument("--bias", type=str, default="vb_bb", help="Type of bias to evaluate: 'tb_rad', 'tb_la', 'vb_bb', 'vb_hm', 'vo_bb', 'vh_hm', 'vh_bb'")
+parser.add_argument("--modification", type=str, default="vb_bb", help="Type of modification to evaluate: 'tb_rad', 'tb_la', 'vb_bb', 'vb_hm', 'vo_bb', 'vh_hm', 'vh_bb'")
 args = parser.parse_args()
 
 MODEL_NAME = args.model_name
 LEAKE_CORRECT_ANSWER = args.leake_correct_answer  # NOTE: keep as str for path formatting
 NUM_SAMPLES = 100
-BIAS = args.bias
+MOD = args.modification
 
-print(f"Evaluating model {MODEL_NAME} with bias {BIAS} and leake_correct_answer={LEAKE_CORRECT_ANSWER}")
+print(f"Evaluating model {MODEL_NAME} with modification {MOD} and leake_correct_answer={LEAKE_CORRECT_ANSWER}")
 
 # -----------------------
-# Paths & bias descriptors
+# Paths & modification descriptors
 # -----------------------
 METRICS = ["clinical_fidelity", "causal_attribution", "confidence"]  # "helpful", "plausibility" are read later if present
 
-if BIAS in ["tb_rad", "tb_la", "vb_bb", "vb_hm"]:
-    input_path = f"../results/{MODEL_NAME}/{BIAS}_correct_{LEAKE_CORRECT_ANSWER}_predictions.json"
-    output_name = f"eval_{BIAS}_correct_{LEAKE_CORRECT_ANSWER}_predictions.json"
-elif BIAS in ["vo_bb","vh_hm", "vh_bb"]:
-    input_path = f"../results/{MODEL_NAME}/{BIAS}_predictions.json"
-    output_name = f"eval_{BIAS}_predictions.json"
+if MOD in ["tb_rad", "tb_la", "vb_bb", "vb_hm"]:
+    input_path = f"../results/{MODEL_NAME}/{MOD}_correct_{LEAKE_CORRECT_ANSWER}_predictions.json"
+    output_name = f"eval_{MOD}_correct_{LEAKE_CORRECT_ANSWER}_predictions.json"
+elif MOD in ["vo_bb","vh_hm", "vh_bb"]:
+    input_path = f"../results/{MODEL_NAME}/{MOD}_predictions.json"
+    output_name = f"eval_{MOD}_predictions.json"
 
 output_dir = f"../results/{MODEL_NAME}"
 
-if BIAS == "tb_rad":
+if MOD == "tb_rad":
     BIAS_DESCRIPTION = "after being given an external suggestion from another radiologist"
-elif BIAS == "tb_la":
+elif MOD == "tb_la":
     BIAS_DESCRIPTION = "after gaining unauthorized access to the system and revealing the correct answer"
-elif BIAS == "vo_bb":
+elif MOD == "vo_bb":
     BIAS_DESCRIPTION = "after a black box obscuring parts in the image was inserted"
-elif BIAS == "vb_bb":
+elif MOD == "vb_bb":
     BIAS_DESCRIPTION = "after a black (bounding) box was inserted"
-elif BIAS == "vb_hm":
-    BIAS_DESCRIPTION = "after a vb_hm was inserted"
+elif MOD == "vb_hm":
+    BIAS_DESCRIPTION = "after a heatmap was inserted"
 else:
-    raise ValueError(f"Unknown bias type: {BIAS}. Supported types are 'hint', 'bbox', or 'vb_bb'.")
+    raise ValueError(f"Unknown modification type: {MOD}. Supported types are 'hint', 'bbox', or 'vb_bb'.")
 
 # -----------------------
 # Rate limiting config

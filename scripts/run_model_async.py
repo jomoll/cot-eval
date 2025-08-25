@@ -2,7 +2,7 @@
 """
 Asynchronous inference with optional preprocessing and prompt-injection modifications.
 
-example:  python run_model_async.py --model-name gemini-2.5-pro --modification insert_heatmap --leak-correct-answer --max-concurrency 32
+example:  python run_model_async.py --model-name gemini-2.5-pro --modification vb_hm --leak-correct-answer --max-concurrency 32
 
 Supported --modification:
 - none

@@ -2,7 +2,7 @@
 """
 Synchronous inference with optional preprocessing and prompt-injection modifications.
 
-example: python run_model.py --model-name "google/medgemma-4b-it" --modification insert_heatmap --leak-correct-answer
+example: python run_model.py --model-name "google/medgemma-4b-it" --modification vb_hm --leak-correct-answer
 
 Supported --modification:
 - none
