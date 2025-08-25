@@ -1,0 +1,3587 @@
+{"Are the lung apex and costodiaphragmatic angle fully visualized on both sides? (yes or no)":{
+  "type": "binary",
+  "projection_hint": "Assume frontal chest radiograph (PA/AP)",
+  "answers": {
+    "yes": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 2,
+          "any_of": [
+            {
+              "term": "apices fully included bilaterally",
+              "synonyms": [
+                "apices fully visible bilaterally",
+                "lung apices included on both sides",
+                "no apical cutoff bilaterally",
+                "superior field includes both apices"
+              ]
+            },
+            {
+              "term": "lateral costophrenic angles included bilaterally",
+              "synonyms": [
+                "costophrenic angles included on both sides",
+                "costodiaphragmatic recesses seen bilaterally",
+                "CP angles included bilaterally",
+                "bases included without cutoff"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "apex cut off",
+          "synonyms": [
+            "apices clipped",
+            "apex not included",
+            "apex excluded",
+            "superior cutoff",
+            "apical crop",
+            "right apex clipped",
+            "left apex clipped"
+          ]
+        },
+        {
+          "term": "costophrenic angle not included",
+          "synonyms": [
+            "CP angle cropped",
+            "costodiaphragmatic angle not seen",
+            "lateral costophrenic recess excluded",
+            "inferior cutoff",
+            "bases cut off",
+            "right CP angle not included",
+            "left CP angle not included"
+          ]
+        },
+        {
+          "term": "apices obscured",
+          "synonyms": [
+            "apices obscured by clavicles",
+            "apices overlapped by scapulae",
+            "apices obscured by lines/tubes",
+            "apices poorly penetrated"
+          ]
+        },
+        {
+          "term": "costophrenic angles obscured",
+          "synonyms": [
+            "CP angles obscured by soft tissue",
+            "CP angles overlapped by abdomen/arms",
+            "underpenetration obscures bases"
+          ]
+        }
+      ],
+      "context": {
+        "notes": [
+          "Poor inspiration or malrotation does not reduce score unless it causes exclusion or obscuration of the apices or CP angles.",
+          "Lordotic AP, elevated shoulders, or arms-down positioning can obscure apices despite inclusion; treat as no if clinically non-diagnostic."
+        ]
+      }
+    },
+    "no": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "apex excluded/cut off (specify side if stated)",
+              "synonyms": [
+                "apices clipped",
+                "apex not included",
+                "apical cutoff",
+                "superior cutoff",
+                "right apex clipped",
+                "left apex clipped"
+              ]
+            },
+            {
+              "term": "costophrenic angle excluded/cut off (specify side if stated)",
+              "synonyms": [
+                "CP angle cropped",
+                "lateral costophrenic recess not seen",
+                "inferior cutoff",
+                "bases cut off",
+                "right CP angle not included",
+                "left CP angle not included"
+              ]
+            },
+            {
+              "term": "apices obscured despite inclusion",
+              "synonyms": [
+                "apices obscured by clavicles",
+                "apices overlapped by scapulae",
+                "apices obscured by lines/tubes",
+                "poor penetration at apices"
+              ]
+            },
+            {
+              "term": "costophrenic angles obscured despite inclusion",
+              "synonyms": [
+                "CP angles obscured by soft tissue",
+                "underpenetration at bases",
+                "arms/abdomen overlapping bases"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "apices fully included bilaterally",
+          "synonyms": [
+            "apices fully visible on both sides",
+            "no apical cutoff bilaterally"
+          ]
+        },
+        {
+          "term": "lateral costophrenic angles included bilaterally",
+          "synonyms": [
+            "CP angles included bilaterally",
+            "bases included without cutoff"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "‘Blunted CP angles’ from effusion count as included if the angles are within the field of view and not obscured. Do not mark no solely for blunting.",
+      "‘Apical pleural cap,’ apical fibrosis, or calcification are pathology terms; if apices are within the field and not obscured, count as included.",
+      "‘Hemidiaphragms included’ is supportive but not sufficient; explicit mention of the lateral costophrenic angles/recesses is preferred.",
+      "Prefer laterality when available: “right apex clipped,” “left CP angle excluded.”",
+      "Portable AP with lordotic angulation that projects clavicles over the apices is no if it prevents confident assessment of the apices."
+    ],
+    "acceptable_alternate_terminology": [
+      [
+        "costophrenic angle",
+        "costodiaphragmatic angle",
+        "lateral costophrenic recess",
+        "costophrenic sulcus"
+      ],
+      [
+        "included",
+        "within collimation",
+        "within field of view",
+        "no cutoff/cropping"
+      ],
+      [
+        "obscured",
+        "overlapped",
+        "not well seen",
+        "limited visibility"
+      ]
+    ]
+  }
+},
+"Is the X-ray image malrotated? (yes or no)": {
+  "type": "binary",
+  "projection_hint": "Assume frontal chest radiograph (PA/AP)",
+  "answers": {
+    "yes": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "patient rotation present",
+              "synonyms": [
+                "malrotation present",
+                "rotated positioning",
+                "rotated film",
+                "rotation noted",
+                "patient rotated to right",
+                "patient rotated to left",
+                "significant rotation"
+              ]
+            },
+            {
+              "term": "clavicular head asymmetry",
+              "synonyms": [
+                "clavicles asymmetric",
+                "medial ends of clavicles unequal distance from spinous processes",
+                "spinous processes not midline",
+                "asymmetric rib cage appearance due to rotation",
+                "thoracic spinous processes shifted",
+                "sternoclavicular joint asymmetry"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "no rotation",
+          "synonyms": [
+            "patient not rotated",
+            "alignment midline",
+            "no malrotation",
+            "clavicles symmetric",
+            "spinous processes midline"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no rotation",
+          "synonyms": [
+            "no malrotation",
+            "patient not rotated",
+            "clavicles symmetric",
+            "spinous processes midline",
+            "alignment midline"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "patient rotation present",
+          "synonyms": [
+            "malrotation present",
+            "rotated positioning",
+            "rotated film",
+            "rotation noted",
+            "significant rotation"
+          ]
+        },
+        {
+          "term": "clavicular head asymmetry",
+          "synonyms": [
+            "clavicles asymmetric",
+            "spinous processes not midline",
+            "sternoclavicular joint asymmetry"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "Rotation is assessed by comparing the distance from the medial ends of the clavicles to the spinous processes of the thoracic vertebrae.",
+      "mild rotation (<5 mm difference) is common and may not be clinically significant unless it impacts interpretation; count as yes only if explicitly noted or clearly described.",
+      "Do not confuse scoliosis or rib deformity with rotation; those should not trigger yes unless rotation is explicitly stated.",
+      "Rotation direction can be described relative to the patient: ‘rotated to right’ means the right clavicle appears further from midline.",
+      "Portable AP views may show more frequent rotation due to patient condition; still mark yes if rotation is present."
+    ],
+    "acceptable_alternate_terminology": [
+      ["rotation", "malrotation", "rotated positioning", "rotated film", "patient rotated"],
+      ["clavicular head asymmetry", "sternoclavicular joint asymmetry", "clavicles asymmetric"],
+      ["spinous processes not midline", "thoracic spinous processes shifted"]
+    ]
+  }
+},
+"Does the chest X-ray show cardiomegaly? (yes or no)": {
+  "type": "binary",
+  "projection_hint": "Assume frontal chest radiograph (PA preferred; AP portable may exaggerate heart size)",
+  "answers": {
+    "yes": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "cardiothoracic ratio increased",
+              "synonyms": [
+                "CTR > 0.50 (PA)",
+                "CTR greater than 0.50 on PA",
+                "CTR > 0.55 (AP)",
+                "CTR exceeds normal limits",
+                "cardiothoracic index increased",
+                "transverse cardiac diameter more than half thoracic diameter"
+              ]
+            },
+            {
+              "term": "enlarged cardiac silhouette",
+              "synonyms": [
+                "cardiomegaly present",
+                "heart size enlarged",
+                "cardiomediastinal silhouette enlarged",
+                "cardiac enlargement noted",
+                "globular cardiac silhouette",
+                "enlarged heart on chest radiograph"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "heart size normal",
+          "synonyms": [
+            "normal cardiac size",
+            "CTR normal",
+            "cardiomediastinal silhouette within normal limits",
+            "no cardiomegaly"
+          ]
+        }
+      ],
+      "context": {
+        "notes": [
+          "AP projection magnifies cardiac size and can overestimate CTR",
+          "Poor inspiration, malrotation, or lordotic positioning can falsely increase apparent heart size",
+          "Pericardial effusion may enlarge the silhouette without true myocardial enlargement"
+        ],
+        "caps": [
+          { "if": "projection == AP", "max_score": 4 },
+          { "if": "inspiration == poor", "max_score": 4 },
+          { "if": "malrotation == true", "max_score": 4 }
+        ]
+      }
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "heart size normal",
+          "synonyms": [
+            "normal cardiac silhouette",
+            "CTR within normal limits",
+            "no cardiomegaly",
+            "cardiomediastinal silhouette within normal limits"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "cardiothoracic ratio increased",
+          "synonyms": [
+            "CTR above normal",
+            "CTR > 0.50 (PA)",
+            "CTR > 0.55 (AP)",
+            "cardiothoracic index increased"
+          ]
+        },
+        {
+          "term": "enlarged cardiac silhouette",
+          "synonyms": [
+            "cardiomegaly present",
+            "heart size enlarged",
+            "cardiac enlargement noted"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "For adults on PA view use CTR > 0.50 as cardiomegaly",
+      "For AP portable views avoid relying solely on CTR unless clearly stated as enlarged and consider clinical context",
+      "In infants and young children a higher CTR threshold may be physiologic and should not be auto-flagged as cardiomegaly unless explicitly stated",
+      "Pericardial effusion can cause an enlarged cardiac silhouette and is often described as globular or water-bottle shaped which may be reported as enlarged silhouette rather than cardiomegaly",
+      "Chest wall deformities including pectus excavatum, severe scoliosis, or rotation can alter apparent heart size",
+      "Adequate inspiration is preferred with at least 6 anterior or 10 posterior ribs visible on PA to avoid pseudo-enlargement"
+    ],
+    "acceptable_alternate_terminology": [
+      ["cardiomegaly", "cardiac enlargement", "enlarged cardiac silhouette", "enlarged heart", "cardiomediastinal enlargement"],
+      ["cardiothoracic ratio", "CTR", "cardiothoracic index"],
+      ["within normal limits", "normal size", "no enlargement"]
+    ]
+  }
+},
+"Is there evidence of pulmonary congestion? (yes or no)": {
+  "type": "binary",
+  "projection_hint": "Assume frontal chest radiograph (PA/AP); consider that supine/AP positioning may mask upper lobe diversion",
+  "answers": {
+    "yes": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "vascular redistribution to upper lobes",
+              "synonyms": [
+                "cephalization of flow",
+                "upper lobe venous diversion",
+                "upper lobe vessel prominence",
+                "cephalized pulmonary vessels",
+                "prominent apical vessels relative to bases"
+              ]
+            },
+            {
+              "term": "interstitial edema",
+              "synonyms": [
+                "Kerley B lines",
+                "Kerley A lines",
+                "septal lines",
+                "septal thickening",
+                "interstitial infiltrates consistent with edema",
+                "reticular interstitial markings"
+              ]
+            },
+            {
+              "term": "peribronchial cuffing",
+              "synonyms": [
+                "perihilar cuffing",
+                "bronchial wall thickening",
+                "peribronchial thickening",
+                "bronchovascular cuffing"
+              ]
+            },
+            {
+              "term": "perihilar haze consistent with edema",
+              "synonyms": [
+                "hazy perihilar opacities",
+                "ill-defined perihilar opacities",
+                "perihilar congestion",
+                "bat wing opacities",
+                "perihilar infiltrates consistent with edema"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "no pulmonary congestion",
+          "synonyms": [
+            "no signs of congestion",
+            "pulmonary vasculature normal",
+            "no evidence of pulmonary venous hypertension",
+            "no vascular redistribution",
+            "no pulmonary edema"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no pulmonary congestion",
+          "synonyms": [
+            "no interstitial edema",
+            "no vascular redistribution",
+            "no pulmonary edema",
+            "pulmonary vasculature normal",
+            "no cephalization of flow"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "interstitial edema",
+          "synonyms": [
+            "Kerley B lines",
+            "Kerley A lines",
+            "septal lines",
+            "septal thickening"
+          ]
+        },
+        {
+          "term": "vascular redistribution to upper lobes",
+          "synonyms": [
+            "cephalization of flow",
+            "upper lobe venous diversion",
+            "upper lobe vessel prominence"
+          ]
+        },
+        {
+          "term": "peribronchial cuffing",
+          "synonyms": [
+            "perihilar cuffing",
+            "bronchial wall thickening"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "Pulmonary congestion refers to radiographic signs of elevated pulmonary venous pressure, often from left heart failure.",
+      "On upright PA radiographs, upper lobe venous diversion (cephalization) is a classic early sign; this may be absent in supine or semi-erect AP views.",
+      "Interstitial edema appears as Kerley A and B lines, peribronchial cuffing, and diffuse reticular opacities.",
+      "Alveolar edema with perihilar opacities (‘bat wing’ pattern) can also be described as pulmonary congestion in the appropriate context.",
+      "Do not confuse perihilar opacities from infection or lymphoma with congestion unless venous redistribution or interstitial edema is also noted.",
+      "In chronic lung disease, vascular prominence may not indicate acute congestion—rely on explicit statements or multiple supportive findings."
+    ],
+    "acceptable_alternate_terminology": [
+      ["pulmonary congestion", "pulmonary venous hypertension", "vascular congestion", "pulmonary vascular redistribution", "pulmonary venous congestion"],
+      ["cephalization", "upper lobe diversion", "upper lobe vascular prominence"],
+      ["interstitial edema", "Kerley lines", "septal lines", "septal thickening"],
+      ["peribronchial cuffing", "bronchial wall thickening", "perihilar cuffing"],
+      ["perihilar haze", "bat wing opacities", "perihilar edema"]
+    ]
+  }
+},
+"Is there a pleural effusion on the right? (yes or no)": {
+  "type": "binary",
+  "answers": {
+    "yes": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "right costophrenic angle blunting",
+              "synonyms": [
+                "blunting of right CP angle",
+                "obliterated right costophrenic angle",
+                "loss of sharpness of right CP angle",
+                "right CP sulcus blunting",
+                "right costodiaphragmatic angle blunting"
+              ]
+            },
+            {
+              "term": "right meniscus sign",
+              "synonyms": [
+                "meniscoid contour right",
+                "curvilinear fluid level right",
+                "concave upper border of right pleural fluid",
+                "right pleural meniscus",
+                "right pleural dome sign"
+              ]
+            },
+            {
+              "term": "layering pleural fluid right",
+              "synonyms": [
+                "layering on right decubitus",
+                "right pleural fluid layering",
+                "right lateral decubitus shows fluid shift",
+                "layering effusion right side"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "no right pleural effusion",
+          "synonyms": [
+            "right CP angle sharp",
+            "no right pleural fluid",
+            "no blunting of right costophrenic angle",
+            "right CP sulcus sharp",
+            "no right-sided pleural fluid"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no right pleural effusion",
+          "synonyms": [
+            "no pleural fluid right",
+            "right CP angle sharp",
+            "no right-sided pleural fluid",
+            "no blunting of right costophrenic angle",
+            "right costophrenic angle normal"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "right meniscus sign",
+          "synonyms": [
+            "meniscoid contour right",
+            "curvilinear right pleural fluid",
+            "right pleural meniscus",
+            "concave upper border of right pleural fluid"
+          ]
+        },
+        {
+          "term": "right costophrenic angle blunting",
+          "synonyms": [
+            "blunting of right CP angle",
+            "obliterated right costophrenic angle"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "right pleural effusion is suggested by blunting or obliteration of the right costophrenic angle on upright PA film.",
+      "The meniscus sign refers to a concave upward contour of pleural fluid seen on upright imaging.",
+      "Layering of fluid on right lateral decubitus films confirms its free-flowing nature.",
+      "Small effusions may be seen only on decubitus or ultrasound; for radiograph-only evaluation, rely on explicit report statements.",
+      "Pleural thickening or scarring may mimic blunting; do not classify as effusion unless fluid is described.",
+      "Loculated effusions may not show a classic meniscus; look for atypical curvilinear or lenticular opacities."
+    ],
+    "acceptable_alternate_terminology": [
+      ["pleural effusion", "pleural fluid", "fluid in pleural space", "hydrothorax"],
+      ["costophrenic angle", "CP angle", "costodiaphragmatic angle", "CP sulcus"],
+      ["meniscus sign", "meniscoid contour", "pleural meniscus", "concave pleural fluid contour"]
+    ]
+  }
+},
+"Is there a pleural effusion on the left? (yes or no)": {
+  "type": "binary",
+  "answers": {
+    "yes": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "left costophrenic angle blunting",
+              "synonyms": [
+                "blunting of left CP angle",
+                "obliterated left costophrenic angle",
+                "loss of sharpness of left CP angle",
+                "left CP sulcus blunting",
+                "left costodiaphragmatic angle blunting"
+              ]
+            },
+            {
+              "term": "left meniscus sign",
+              "synonyms": [
+                "meniscoid contour left",
+                "curvilinear fluid level left",
+                "concave upper border of left pleural fluid",
+                "left pleural meniscus",
+                "left pleural dome sign"
+              ]
+            },
+            {
+              "term": "layering pleural fluid left",
+              "synonyms": [
+                "layering on left decubitus",
+                "left pleural fluid layering",
+                "left lateral decubitus shows fluid shift",
+                "layering effusion left side"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "no left pleural effusion",
+          "synonyms": [
+            "left CP angle sharp",
+            "no left pleural fluid",
+            "no blunting of left costophrenic angle",
+            "left CP sulcus sharp",
+            "no left-sided pleural fluid"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no left pleural effusion",
+          "synonyms": [
+            "no pleural fluid left",
+            "left CP angle sharp",
+            "no left-sided pleural fluid",
+            "no blunting of left costophrenic angle",
+            "left costophrenic angle normal"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "left meniscus sign",
+          "synonyms": [
+            "meniscoid contour left",
+            "curvilinear left pleural fluid",
+            "left pleural meniscus",
+            "concave upper border of left pleural fluid"
+          ]
+        },
+        {
+          "term": "left costophrenic angle blunting",
+          "synonyms": [
+            "blunting of left CP angle",
+            "obliterated left costophrenic angle"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "left pleural effusion is suggested by blunting or obliteration of the left costophrenic angle on upright PA film.",
+      "The meniscus sign refers to a concave upward contour of pleural fluid seen on upright imaging.",
+      "Layering of fluid on left lateral decubitus films confirms its free-flowing nature.",
+      "Small effusions may be seen only on decubitus or ultrasound; for radiograph-only evaluation, rely on explicit report statements.",
+      "Pleural thickening or scarring may mimic blunting; do not classify as effusion unless fluid is described.",
+      "Loculated effusions may not show a classic meniscus; look for atypical curvilinear or lenticular opacities."
+    ],
+    "acceptable_alternate_terminology": [
+      ["pleural effusion", "pleural fluid", "fluid in pleural space", "hydrothorax"],
+      ["costophrenic angle", "CP angle", "costodiaphragmatic angle", "CP sulcus"],
+      ["meniscus sign", "meniscoid contour", "pleural meniscus", "concave pleural fluid contour"]
+    ]
+  }
+},
+"Are there pulmonary opacities in the right lung? (yes or no)": {
+  "type": "binary",
+  "answers": {
+    "yes": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "right lower zone opacity",
+              "synonyms": [
+                "opacity right base",
+                "basilar opacity right",
+                "right basilar consolidation",
+                "right lower lobe opacity",
+                "right base consolidation"
+              ]
+            },
+            {
+              "term": "right perihilar opacity",
+              "synonyms": [
+                "perihilar haze right",
+                "perihilar shadowing right",
+                "right hilar opacity",
+                "right perihilar infiltrate"
+              ]
+            },
+            {
+              "term": "right upper zone opacity",
+              "synonyms": [
+                "right upper lobe opacity",
+                "right apical opacity",
+                "opacity right apex",
+                "right upper lobe consolidation"
+              ]
+            },
+            {
+              "term": "air bronchograms right",
+              "synonyms": [
+                "air bronchogram in right lung",
+                "bronchograms visible right",
+                "right lung air bronchograms present"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "no right lung opacities",
+          "synonyms": [
+            "right lung clear",
+            "no focal opacity right",
+            "no consolidation right",
+            "no right-sided lung opacity"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no right lung opacities",
+          "synonyms": [
+            "right lung clear",
+            "no focal consolidation right",
+            "no opacity right lung",
+            "no consolidation in right lung"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "right lower zone opacity",
+          "synonyms": [
+            "right basilar opacity",
+            "right base consolidation",
+            "opacity right base",
+            "right lower lobe consolidation"
+          ]
+        },
+        {
+          "term": "right perihilar opacity",
+          "synonyms": [
+            "right hilar opacity",
+            "right perihilar infiltrate"
+          ]
+        },
+        {
+          "term": "right upper zone opacity",
+          "synonyms": [
+            "right apical opacity",
+            "right upper lobe consolidation"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "Pulmonary opacities include consolidation, ground-glass opacity, interstitial markings, or nodular opacities within the right lung field.",
+      "Do not confuse pleural effusion with parenchymal opacity; blunting of the costophrenic angle alone does not count.",
+      "right lung is divided into upper, middle, and lower zones; location-specific descriptors should still count as yes.",
+      "Air bronchograms suggest alveolar consolidation and should be considered an opacity.",
+      "Post-surgical changes, scarring, or atelectasis can appear as opacities; if described as opacity, still count as yes unless clearly stated as old or unchanged."
+    ],
+    "acceptable_alternate_terminology": [
+      ["opacity", "consolidation", "infiltrate", "haze", "shadowing", "ground-glass opacity"],
+      ["right lung", "right hemithorax", "right lung field"],
+      ["air bronchogram", "bronchograms visible"]
+    ]
+  }
+},
+"Are there pulmonary opacities in the left lung? (yes or no)": {
+  "type": "binary",
+  "answers": {
+    "yes": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "left lower zone opacity",
+              "synonyms": [
+                "opacity left base",
+                "basilar opacity left",
+                "left basilar consolidation",
+                "left lower lobe opacity",
+                "left base consolidation"
+              ]
+            },
+            {
+              "term": "left perihilar opacity",
+              "synonyms": [
+                "perihilar haze left",
+                "perihilar shadowing left",
+                "left hilar opacity",
+                "left perihilar infiltrate"
+              ]
+            },
+            {
+              "term": "left upper zone opacity",
+              "synonyms": [
+                "left upper lobe opacity",
+                "left apical opacity",
+                "opacity left apex",
+                "left upper lobe consolidation"
+              ]
+            },
+            {
+              "term": "air bronchograms left",
+              "synonyms": [
+                "air bronchogram in left lung",
+                "bronchograms visible left",
+                "left lung air bronchograms present"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "no left lung opacities",
+          "synonyms": [
+            "left lung clear",
+            "no focal opacity left",
+            "no consolidation left",
+            "no left-sided lung opacity"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no left lung opacities",
+          "synonyms": [
+            "left lung clear",
+            "no focal consolidation left",
+            "no opacity left lung",
+            "no consolidation in left lung"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "left lower zone opacity",
+          "synonyms": [
+            "left basilar opacity",
+            "left base consolidation",
+            "opacity left base",
+            "left lower lobe consolidation"
+          ]
+        },
+        {
+          "term": "left perihilar opacity",
+          "synonyms": [
+            "left hilar opacity",
+            "left perihilar infiltrate"
+          ]
+        },
+        {
+          "term": "left upper zone opacity",
+          "synonyms": [
+            "left apical opacity",
+            "left upper lobe consolidation"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "Pulmonary opacities include consolidation, ground-glass opacity, interstitial markings, or nodular opacities within the left lung field.",
+      "Do not confuse pleural effusion with parenchymal opacity; blunting of the costophrenic angle alone does not count.",
+      "left lung is divided into upper and lower zones (lingula included in upper zone for descriptive purposes); location-specific descriptors should still count as yes.",
+      "Air bronchograms suggest alveolar consolidation and should be considered an opacity.",
+      "Post-surgical changes, scarring, or atelectasis can appear as opacities; if described as opacity, still count as yes unless clearly stated as old or unchanged."
+    ],
+    "acceptable_alternate_terminology": [
+      ["opacity", "consolidation", "infiltrate", "haze", "shadowing", "ground-glass opacity"],
+      ["left lung", "left hemithorax", "left lung field"],
+      ["air bronchogram", "bronchograms visible"]
+    ]
+  }
+},
+"Is there atelectasis on the right side? (yes or no)": {
+  "type": "binary",
+  "answers": {
+    "yes": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 2,
+          "any_of": [
+            {
+              "term": "right volume loss",
+              "synonyms": [
+                "reduced right lung volume",
+                "right hemithorax volume loss",
+                "decreased right lung size",
+                "loss of volume in right lung"
+              ]
+            },
+            {
+              "term": "fissure displacement right",
+              "synonyms": [
+                "right fissure shifted",
+                "minor fissure displacement right",
+                "oblique fissure shifted right",
+                "fissural displacement right side"
+              ]
+            },
+            {
+              "term": "diaphragm elevation right",
+              "synonyms": [
+                "elevated right hemidiaphragm",
+                "raised right diaphragm",
+                "right diaphragmatic elevation"
+              ]
+            },
+            {
+              "term": "mediastinal shift toward right",
+              "synonyms": [
+                "cardiomediastinal shift right",
+                "trachea deviated right",
+                "mediastinum shifted toward right lung"
+              ]
+            },
+            {
+              "term": "vascular crowding right",
+              "synonyms": [
+                "vascular convergence right",
+                "crowded vascular markings right",
+                "crowding of pulmonary vessels right"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "no right atelectasis",
+          "synonyms": [
+            "no volume loss right",
+            "no collapse right",
+            "no right-sided collapse",
+            "no lobar collapse right"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no right atelectasis",
+          "synonyms": [
+            "no lobar collapse right",
+            "no right volume loss",
+            "no collapse right lung",
+            "right lung fully expanded"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "fissure displacement right",
+          "synonyms": [
+            "right fissure shifted",
+            "minor fissure moved right",
+            "oblique fissure displaced right"
+          ]
+        },
+        {
+          "term": "right volume loss",
+          "synonyms": [
+            "reduced right lung volume",
+            "right hemithorax volume loss"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "right-sided atelectasis is indicated by a combination of signs such as volume loss, fissure displacement, elevation of the hemidiaphragm, mediastinal shift toward the affected side, and vascular crowding.",
+      "Require at least two supportive signs to confidently classify as yes unless explicitly stated by the radiologist.",
+      "Mediastinal shift away from the right side suggests an alternative process such as tension pneumothorax, not atelectasis.",
+      "Post-surgical changes, scarring, or prior lobectomy can mimic volume loss; use clinical or historical context when available.",
+      "Segmental, lobar, or total lung collapse on the right should all be counted as yes if described as atelectasis or with equivalent signs."
+    ],
+    "acceptable_alternate_terminology": [
+      ["atelectasis", "collapse", "lobar collapse", "segmental collapse"],
+      ["volume loss", "reduced lung volume", "loss of lung volume"],
+      ["fissure displacement", "fissural shift"],
+      ["diaphragm elevation", "raised diaphragm"],
+      ["mediastinal shift", "tracheal deviation"],
+      ["vascular crowding", "vascular convergence"]
+    ]
+  }
+},
+"Is there atelectasis on the left side? (yes or no)": {
+  "type": "binary",
+  "answers": {
+    "yes": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 2,
+          "any_of": [
+            {
+              "term": "left volume loss",
+              "synonyms": [
+                "reduced left lung volume",
+                "left hemithorax volume loss",
+                "decreased left lung size",
+                "loss of volume in left lung"
+              ]
+            },
+            {
+              "term": "fissure displacement left",
+              "synonyms": [
+                "left fissure shifted",
+                "minor fissure displacement left",
+                "oblique fissure shifted left",
+                "fissural displacement left side"
+              ]
+            },
+            {
+              "term": "diaphragm elevation left",
+              "synonyms": [
+                "elevated left hemidiaphragm",
+                "raised left diaphragm",
+                "left diaphragmatic elevation"
+              ]
+            },
+            {
+              "term": "mediastinal shift toward left",
+              "synonyms": [
+                "cardiomediastinal shift left",
+                "trachea deviated left",
+                "mediastinum shifted toward left lung"
+              ]
+            },
+            {
+              "term": "vascular crowding left",
+              "synonyms": [
+                "vascular convergence left",
+                "crowded vascular markings left",
+                "crowding of pulmonary vessels left"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "no left atelectasis",
+          "synonyms": [
+            "no volume loss left",
+            "no collapse left",
+            "no left-sided collapse",
+            "no lobar collapse left"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no left atelectasis",
+          "synonyms": [
+            "no lobar collapse left",
+            "no left volume loss",
+            "no collapse left lung",
+            "left lung fully expanded"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "fissure displacement left",
+          "synonyms": [
+            "left fissure shifted",
+            "minor fissure moved left",
+            "oblique fissure displaced left"
+          ]
+        },
+        {
+          "term": "left volume loss",
+          "synonyms": [
+            "reduced left lung volume",
+            "left hemithorax volume loss"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "left-sided atelectasis is indicated by a combination of signs such as volume loss, fissure displacement, elevation of the hemidiaphragm, mediastinal shift toward the affected side, and vascular crowding.",
+      "Require at least two supportive signs to confidently classify as yes unless explicitly stated by the radiologist.",
+      "Mediastinal shift away from the left side suggests an alternative process such as tension pneumothorax, not atelectasis.",
+      "Post-surgical changes, scarring, or prior lobectomy can mimic volume loss; use clinical or historical context when available.",
+      "Segmental, lobar, or total lung collapse on the left should all be counted as yes if described as atelectasis or with equivalent signs."
+    ],
+    "acceptable_alternate_terminology": [
+      ["atelectasis", "collapse", "lobar collapse", "segmental collapse"],
+      ["volume loss", "reduced lung volume", "loss of lung volume"],
+      ["fissure displacement", "fissural shift"],
+      ["diaphragm elevation", "raised diaphragm"],
+      ["mediastinal shift", "tracheal deviation"],
+      ["vascular crowding", "vascular convergence"]
+    ]
+  }
+},
+"Is there a pneumothorax on the right side? (yes or no)": {
+  "type": "binary",
+  "answers": {
+    "yes": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "visceral pleural line right",
+              "synonyms": [
+                "pleural line right visible",
+                "distinct right pleural line",
+                "sharp visceral pleural line right",
+                "clear pleural demarcation right"
+              ]
+            },
+            {
+              "term": "absent peripheral lung markings right",
+              "synonyms": [
+                "no vascular markings beyond line right",
+                "lucent peripheral right lung",
+                "hyperlucent right lung margin",
+                "avascular peripheral right lung field"
+              ]
+            },
+            {
+              "term": "deep sulcus sign right (supine)",
+              "synonyms": [
+                "deep right costophrenic sulcus",
+                "abnormally deep right sulcus",
+                "right deep sulcus appearance",
+                "hyperlucent deep right sulcus"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "no right pneumothorax",
+          "synonyms": [
+            "no pneumothorax right",
+            "no pleural air right",
+            "no right-sided pneumothorax",
+            "no free air in right pleural space"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no right pneumothorax",
+          "synonyms": [
+            "no pleural air right",
+            "no pneumothorax detected right",
+            "no right-sided pneumothorax",
+            "right lung fully expanded"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "visceral pleural line right",
+          "synonyms": [
+            "pleural line right visible",
+            "sharp pleural line right",
+            "distinct right pleural margin"
+          ]
+        },
+        {
+          "term": "absent peripheral lung markings right",
+          "synonyms": [
+            "no vascular markings beyond line right",
+            "lucent peripheral right lung"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "A pneumothorax is identified by the presence of a visceral pleural line with no lung markings peripheral to it.",
+      "In upright films, the air rises to the apex; in supine patients, look for the deep sulcus sign.",
+      "Avoid mistaking skin folds, bullae, or interlobar fissures for a pleural line; these may mimic pneumothorax.",
+      "Hyperlucency from overexposure or emphysema should not be classified as pneumothorax unless a pleural line is seen.",
+      "Tension pneumothorax is a separate diagnosis, but its underlying pneumothorax should still be marked as yes."
+    ],
+    "acceptable_alternate_terminology": [
+      ["pneumothorax", "pleural air", "collapsed lung"],
+      ["visceral pleural line", "pleural line", "pleural margin"],
+      ["absent lung markings", "avascular peripheral lung", "hyperlucent lung edge"],
+      ["deep sulcus sign", "deep costophrenic sulcus"]
+    ]
+  }
+},
+"Is there a pneumothorax on the left side? (yes or no)": {
+  "type": "binary",
+  "answers": {
+    "yes": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "visceral pleural line left",
+              "synonyms": [
+                "pleural line left visible",
+                "distinct left pleural line",
+                "sharp visceral pleural line left",
+                "clear pleural demarcation left"
+              ]
+            },
+            {
+              "term": "absent peripheral lung markings left",
+              "synonyms": [
+                "no vascular markings beyond line left",
+                "lucent peripheral left lung",
+                "hyperlucent left lung margin",
+                "avascular peripheral left lung field"
+              ]
+            },
+            {
+              "term": "deep sulcus sign left (supine)",
+              "synonyms": [
+                "deep left costophrenic sulcus",
+                "abnormally deep left sulcus",
+                "left deep sulcus appearance",
+                "hyperlucent deep left sulcus"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "no left pneumothorax",
+          "synonyms": [
+            "no pneumothorax left",
+            "no pleural air left",
+            "no left-sided pneumothorax",
+            "no free air in left pleural space"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no left pneumothorax",
+          "synonyms": [
+            "no pleural air left",
+            "no pneumothorax detected left",
+            "no left-sided pneumothorax",
+            "left lung fully expanded"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "visceral pleural line left",
+          "synonyms": [
+            "pleural line left visible",
+            "sharp pleural line left",
+            "distinct left pleural margin"
+          ]
+        },
+        {
+          "term": "absent peripheral lung markings left",
+          "synonyms": [
+            "no vascular markings beyond line left",
+            "lucent peripheral left lung"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "A pneumothorax is identified by the presence of a visceral pleural line with no lung markings peripheral to it.",
+      "In upright films, the air rises to the apex; in supine patients, look for the deep sulcus sign.",
+      "Avoid mistaking skin folds, bullae, or interlobar fissures for a pleural line; these may mimic pneumothorax.",
+      "Hyperlucency from overexposure or emphysema should not be classified as pneumothorax unless a pleural line is seen.",
+      "Tension pneumothorax is a separate diagnosis, but its underlying pneumothorax should still be marked as yes."
+    ],
+    "acceptable_alternate_terminology": [
+      ["pneumothorax", "pleural air", "collapsed lung"],
+      ["visceral pleural line", "pleural line", "pleural margin"],
+      ["absent lung markings", "avascular peripheral lung", "hyperlucent lung edge"],
+      ["deep sulcus sign", "deep costophrenic sulcus"]
+    ]
+  }
+},
+"Is there any visible lung nodule or mass on this X-ray? (yes/no)": {
+  "type": "binary",
+  "answers": {
+    "yes": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "pulmonary nodule present",
+              "synonyms": [
+                "lung nodule visible",
+                "solitary pulmonary nodule",
+                "pulmonary nodule identified",
+                "rounded opacity in lung",
+                "discrete lung nodule"
+              ]
+            },
+            {
+              "term": "pulmonary mass present",
+              "synonyms": [
+                "lung mass visible",
+                "mass-like opacity",
+                "pulmonary mass identified",
+                "large lung mass",
+                "mass lesion in lung"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "no pulmonary nodule",
+          "synonyms": [
+            "no lung nodule",
+            "no discrete nodule",
+            "no solitary pulmonary nodule",
+            "no focal nodule"
+          ]
+        },
+        {
+          "term": "no mass",
+          "synonyms": [
+            "no lung mass",
+            "no mass-like lesion",
+            "no pulmonary mass"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no pulmonary nodule",
+          "synonyms": [
+            "no lung nodule",
+            "no discrete nodule",
+            "no solitary pulmonary nodule",
+            "no focal nodule"
+          ]
+        },
+        {
+          "term": "no mass",
+          "synonyms": [
+            "no lung mass",
+            "no mass-like lesion",
+            "no pulmonary mass"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "pulmonary nodule present",
+          "synonyms": [
+            "lung nodule visible",
+            "solitary pulmonary nodule",
+            "discrete lung nodule"
+          ]
+        },
+        {
+          "term": "pulmonary mass present",
+          "synonyms": [
+            "lung mass visible",
+            "mass-like opacity"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "A pulmonary nodule is typically defined as a rounded or irregular opacity ≤3 cm in diameter, whereas a mass is >3 cm.",
+      "Count as yes if either a nodule or a mass is explicitly described, regardless of whether benign or malignant features are discussed.",
+      "Do not count calcified granulomas, old scars, or artifacts unless described as a current nodule or mass.",
+      "Multiple nodules or masses should still be counted as yes.",
+      "Terms like 'opacity' or 'lesion' should be linked to a focal finding; diffuse opacities are not nodules or masses."
+    ],
+    "acceptable_alternate_terminology": [
+      ["pulmonary nodule", "lung nodule", "solitary pulmonary nodule", "SPN", "rounded opacity"],
+      ["pulmonary mass", "lung mass", "mass-like opacity", "mass lesion"],
+      ["nodule visible", "mass visible", "identified nodule", "identified mass"]
+    ]
+  }
+},
+"Is an endotracheal tube present in this image? (yes or no)": {
+  "type": "binary",
+  "answers": {
+    "yes": {
+      "must_all": [
+        {
+          "term": "endotracheal tube present",
+          "synonyms": [
+            "ETT present",
+            "endotracheal tube seen",
+            "presence of endotracheal tube",
+            "visualized endotracheal tube",
+            "endotracheal tube in situ"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "no endotracheal tube",
+          "synonyms": [
+            "ETT absent",
+            "no ETT visualized",
+            "no endotracheal tube seen"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no endotracheal tube",
+          "synonyms": [
+            "no ETT visualized",
+            "ETT absent",
+            "no endotracheal tube seen"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "endotracheal tube present",
+          "synonyms": [
+            "ETT present",
+            "endotracheal tube seen",
+            "presence of endotracheal tube"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "An endotracheal tube is typically identified as a radiopaque line with a central lucency extending into the trachea.",
+      "Count as yes if an endotracheal tube is explicitly mentioned, regardless of position or tip location.",
+      "Do not count nasogastric or orogastric tubes as endotracheal tubes.",
+      "If the tube is malpositioned but still present, the answer remains yes.",
+      "If the report only mentions 'tube removed' or 'extubated', classify as no."
+    ],
+    "acceptable_alternate_terminology": [
+      ["endotracheal tube", "ETT", "tracheal tube"],
+      ["tube present", "tube seen", "tube in situ"],
+      ["tube absent", "tube removed", "no tube visualized"]
+    ]
+  }
+},
+"Is a gastric tube present in this image? (yes or no)": {
+  "type": "binary",
+  "answers": {
+    "yes": {
+      "must_all": [
+        {
+          "term": "gastric tube present",
+          "synonyms": [
+            "enteric tube present",
+            "NG/OG tube present",
+            "nasogastric tube present",
+            "orogastric tube present",
+            "feeding tube present"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "no gastric tube",
+          "synonyms": [
+            "no enteric tube",
+            "no NG/OG tube",
+            "no nasogastric tube",
+            "no orogastric tube",
+            "no feeding tube"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no gastric tube",
+          "synonyms": [
+            "no enteric tube",
+            "no NG/OG tube",
+            "no nasogastric tube",
+            "no orogastric tube",
+            "no feeding tube"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "gastric tube present",
+          "synonyms": [
+            "enteric tube present",
+            "NG/OG tube present",
+            "nasogastric tube present",
+            "orogastric tube present",
+            "feeding tube present"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "A gastric tube includes nasogastric (NG), orogastric (OG), and feeding tubes that traverse the esophagus into the stomach.",
+      "Count as yes if the tube is explicitly described, regardless of whether the tip position is in the correct location.",
+      "Do not confuse an endotracheal tube with a gastric tube.",
+      "If the tube is malpositioned but present, still count as yes.",
+      "If the report mentions 'tube removed' or 'no tube present', classify as no."
+    ],
+    "acceptable_alternate_terminology": [
+      ["gastric tube", "enteric tube", "feeding tube", "nasogastric tube", "orogastric tube", "NG tube", "OG tube"],
+      ["tube present", "tube seen", "tube in situ"],
+      ["tube absent", "tube removed", "no tube visualized"]
+    ]
+  }
+},
+"Is a central venous catheter present in this image? (yes or no)": {
+  "type": "binary",
+  "answers": {
+    "yes": {
+      "must_all": [
+        {
+          "term": "central venous catheter present",
+          "synonyms": [
+            "CVC present",
+            "central line present",
+            "central venous line present",
+            "central venous catheter seen",
+            "central line seen",
+            "tunneled central line present",
+            "non-tunneled central line present"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "no central venous catheter",
+          "synonyms": [
+            "no CVC",
+            "no central line",
+            "no central venous catheter seen",
+            "no central venous line present"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no central venous catheter",
+          "synonyms": [
+            "no CVC",
+            "no central line",
+            "no central venous catheter seen",
+            "no central venous line present"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "central venous catheter present",
+          "synonyms": [
+            "CVC present",
+            "central line present",
+            "central venous line present",
+            "central venous catheter seen"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "A central venous catheter (CVC) is identified as a radiopaque line coursing through a central vein, often terminating in the superior vena cava or right atrium.",
+      "Count as yes if any type of CVC is explicitly described, including tunneled, non-tunneled, or peripherally inserted central catheters (PICCs) if the report calls them central lines.",
+      "Differentiate CVC from other lines like Swan-Ganz catheters or dialysis catheters unless explicitly called a central line.",
+      "If the line is malpositioned but present, still count as yes.",
+      "If the report states the line has been removed, classify as no."
+    ],
+    "acceptable_alternate_terminology": [
+      ["central venous catheter", "CVC", "central line", "central venous line"],
+      ["line present", "line seen", "line in situ"],
+      ["line absent", "line removed", "no line visualized"]
+    ]
+  }
+},
+"Is a central venous catheter visible in this image? (yes or no)": {
+  "type": "binary",
+  "answers": {
+    "yes": {
+      "must_all": [
+        {
+          "term": "central venous catheter present",
+          "synonyms": [
+            "CVC present",
+            "central line present",
+            "central venous line present",
+            "central venous catheter seen",
+            "central line seen",
+            "tunneled central line present",
+            "non-tunneled central line present"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "no central venous catheter",
+          "synonyms": [
+            "no CVC",
+            "no central line",
+            "no central venous catheter seen",
+            "no central venous line present"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no central venous catheter",
+          "synonyms": [
+            "no CVC",
+            "no central line",
+            "no central venous catheter seen",
+            "no central venous line present"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "central venous catheter present",
+          "synonyms": [
+            "CVC present",
+            "central line present",
+            "central venous line present",
+            "central venous catheter seen"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "A central venous catheter (CVC) is identified as a radiopaque line coursing through a central vein, often terminating in the superior vena cava or right atrium.",
+      "Count as yes if any type of CVC is explicitly described, including tunneled, non-tunneled, or peripherally inserted central catheters (PICCs) if the report calls them central lines.",
+      "Differentiate CVC from other lines like Swan-Ganz catheters or dialysis catheters unless explicitly called a central line.",
+      "If the line is malpositioned but present, still count as yes.",
+      "If the report states the line has been removed, classify as no."
+    ],
+    "acceptable_alternate_terminology": [
+      ["central venous catheter", "CVC", "central line", "central venous line"],
+      ["line present", "line seen", "line in situ"],
+      ["line absent", "line removed", "no line visualized"]
+    ]
+  }
+},
+"Is a cardiac pacemaker device visible in this image? (yes or no)": {
+  "type": "binary",
+  "answers": {
+    "yes": {
+      "must_all": [
+        {
+          "term": "cardiac pacemaker present",
+          "synonyms": [
+            "pacemaker device present",
+            "pacer present",
+            "permanent pacemaker present",
+            "pacemaker seen",
+            "cardiac pacing device present",
+            "pacemaker generator visible"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "no pacemaker device",
+          "synonyms": [
+            "no cardiac pacemaker",
+            "no pacer",
+            "no pacemaker seen",
+            "no cardiac pacing device"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no pacemaker device",
+          "synonyms": [
+            "no cardiac pacemaker",
+            "no pacer",
+            "no pacemaker seen",
+            "no cardiac pacing device"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "cardiac pacemaker present",
+          "synonyms": [
+            "pacemaker device present",
+            "pacer present",
+            "pacemaker seen",
+            "cardiac pacing device present"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "A cardiac pacemaker is typically identified by a radiopaque generator, often in the upper chest wall, with pacing leads extending into the heart.",
+      "Count as yes if any type of permanent pacemaker is explicitly described, including single-lead, dual-lead, or biventricular systems.",
+      "Differentiate pacemakers from implantable cardioverter-defibrillators (ICDs) unless the report uses the generic term 'pacemaker'.",
+      "If the device is malfunctioning, displaced, or partially visualized, still count as yes.",
+      "If the report states the device has been removed, classify as no."
+    ],
+    "acceptable_alternate_terminology": [
+      ["pacemaker", "cardiac pacemaker", "pacer", "cardiac pacing device", "pacemaker generator"],
+      ["device present", "device seen", "in situ device"],
+      ["device absent", "device removed", "no device visualized"]
+    ]
+  }
+},
+"Is a chest tube present in this image? (yes or no)": {
+  "type": "binary",
+  "answers": {
+    "yes": {
+      "must_all": [
+        {
+          "term": "chest tube present",
+          "synonyms": [
+            "thoracostomy tube present",
+            "intercostal drain present",
+            "tube thoracostomy present",
+            "pleural drain present",
+            "chest drain in situ"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "no chest tube",
+          "synonyms": [
+            "no thoracostomy tube",
+            "no intercostal drain",
+            "no chest drain",
+            "no pleural drain",
+            "no tube thoracostomy"
+          ]
+        }
+      ]
+    },
+    "no": {
+      "must_all": [
+        {
+          "term": "no chest tube",
+          "synonyms": [
+            "no thoracostomy tube",
+            "no intercostal drain",
+            "no chest drain",
+            "no pleural drain",
+            "no tube thoracostomy"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "chest tube present",
+          "synonyms": [
+            "thoracostomy tube present",
+            "intercostal drain present",
+            "pleural drain present",
+            "tube thoracostomy present"
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "A chest tube (thoracostomy tube) is typically visualized as a radiopaque line with side holes, projecting into the pleural space.",
+      "Count as yes if any type of chest tube is explicitly described, regardless of indication (pneumothorax, effusion, empyema, postoperative drainage).",
+      "Do not confuse a central venous catheter or other lines for a chest tube.",
+      "If the tube is malpositioned but present, still count as yes.",
+      "If the report states the tube has been removed or is absent, classify as no."
+    ],
+    "acceptable_alternate_terminology": [
+      ["chest tube", "thoracostomy tube", "intercostal drain", "pleural drain", "tube thoracostomy"],
+      ["tube present", "tube seen", "tube in situ"],
+      ["tube absent", "tube removed", "no tube visualized"]
+    ]
+  }
+},
+"What is the severity of pulmonary congestion? (none, questionable, mild, moderate, severe)": {
+  "type": "ordinal",
+  "answers": {
+    "none": {
+      "must_all": [
+        {
+          "term": "no pulmonary congestion",
+          "synonyms": [
+            "no signs of congestion",
+            "pulmonary vasculature normal",
+            "no pulmonary venous hypertension",
+            "no vascular redistribution"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "interstitial edema",
+          "synonyms": [
+            "Kerley B lines",
+            "septal lines",
+            "Kerley A lines",
+            "septal thickening"
+          ]
+        },
+        {
+          "term": "vascular redistribution to upper lobes",
+          "synonyms": [
+            "cephalization of flow",
+            "upper lobe diversion",
+            "upper lobe venous prominence"
+          ]
+        }
+      ]
+    },
+    "questionable": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "subtle vascular prominence",
+              "synonyms": [
+                "mild vascular crowding",
+                "equivocal vascular redistribution",
+                "borderline pulmonary vascular congestion"
+              ]
+            },
+            {
+              "term": "equivocal perihilar haze",
+              "synonyms": [
+                "very mild perihilar haze",
+                "questionable perihilar opacity",
+                "minimal perihilar shadowing"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "alveolar edema",
+          "synonyms": [
+            "bat-wing pattern",
+            "florid pulmonary edema",
+            "marked alveolar opacities"
+          ]
+        }
+      ]
+    },
+    "mild": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "vascular redistribution to upper lobes",
+              "synonyms": [
+                "cephalization of flow",
+                "upper lobe diversion",
+                "upper lobe venous prominence"
+              ]
+            },
+            {
+              "term": "few Kerley B lines",
+              "synonyms": [
+                "scattered septal lines",
+                "rare Kerley lines",
+                "occasional Kerley B lines"
+              ]
+            },
+            {
+              "term": "mild peribronchial cuffing",
+              "synonyms": [
+                "mild bronchial wall thickening",
+                "mild perihilar cuffing",
+                "mild bronchovascular cuffing"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "alveolar edema",
+          "synonyms": [
+            "bat-wing pattern",
+            "frank airspace edema",
+            "alveolar flooding"
+          ]
+        }
+      ]
+    },
+    "moderate": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 2,
+          "any_of": [
+            {
+              "term": "numerous Kerley B lines",
+              "synonyms": [
+                "multiple septal lines",
+                "prominent Kerley lines",
+                "marked septal thickening"
+              ]
+            },
+            {
+              "term": "peribronchial cuffing",
+              "synonyms": [
+                "bronchial wall thickening",
+                "perihilar cuffing",
+                "bronchovascular cuffing"
+              ]
+            },
+            {
+              "term": "perihilar haze",
+              "synonyms": [
+                "perihilar opacities",
+                "ill-defined perihilar shadowing",
+                "perihilar infiltrates"
+              ]
+            },
+            {
+              "term": "small pleural effusions",
+              "synonyms": [
+                "trace bilateral effusions",
+                "small layering fluid",
+                "small pleural fluid collections"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "severe": {
+      "must_all": [
+        {
+          "term": "alveolar edema",
+          "synonyms": [
+            "bat-wing pattern",
+            "diffuse airspace edema",
+            "florid alveolar opacities"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "diffuse perihilar opacities",
+              "synonyms": [
+                "confluent perihilar opacities",
+                "widespread airspace change",
+                "extensive perihilar shadowing"
+              ]
+            },
+            {
+              "term": "airspace edema",
+              "synonyms": [
+                "confluent alveolar opacities",
+                "pervasive airspace opacities",
+                "diffuse alveolar infiltrates"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "Severity of pulmonary congestion is typically graded based on the progression from vascular redistribution (mild) to interstitial edema (moderate) to alveolar edema (severe).",
+      "Projection, patient position, and technical factors can affect apparent severity.",
+      "Small pleural effusions may accompany moderate or severe congestion but are not required for diagnosis.",
+      "Terms like 'equivocal' or 'questionable' should map to questionable unless there is stronger evidence for a higher grade."
+    ],
+    "acceptable_alternate_terminology": [
+      ["pulmonary congestion", "pulmonary venous hypertension", "vascular congestion"],
+      ["Kerley lines", "septal lines", "interstitial markings"],
+      ["alveolar edema", "airspace edema", "bat-wing pattern"]
+    ]
+  }
+},
+"What is the severity of pleural effusion on the right? (none, questionable, mild, moderate, severe)": {
+  "type": "ordinal",
+  "answers": {
+    "none": {
+      "must_all": [
+        {
+          "term": "no right pleural effusion",
+          "synonyms": [
+            "right CP angle sharp",
+            "no right pleural fluid",
+            "right costophrenic angle normal",
+            "no right pleural collection"
+          ]
+        }
+      ],
+      "at_least_k_of": []
+    },
+    "questionable": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "subtle right costophrenic blunting",
+              "synonyms": [
+                "minimally blunted right CP angle",
+                "equivocal right CP angle",
+                "slight right costophrenic angle blunting"
+              ]
+            },
+            {
+              "term": "equivocal pleural line right",
+              "synonyms": [
+                "questionable right meniscus",
+                "indeterminate pleural contour right",
+                "possible meniscus sign right"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "mild": {
+      "must_all": [
+        {
+          "term": "right pleural effusion present",
+          "synonyms": [
+            "small right effusion",
+            "trace right pleural fluid",
+            "minor right pleural effusion"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "small right meniscus",
+              "synonyms": [
+                "shallow meniscus right",
+                "low meniscus right",
+                "short meniscus contour right"
+              ]
+            },
+            {
+              "term": "blunting without lateral wall contact",
+              "synonyms": [
+                "CP blunting only",
+                "no lateral wall meniscus yet",
+                "isolated costophrenic angle blunting"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "moderate": {
+      "must_all": [
+        {
+          "term": "right pleural effusion present",
+          "synonyms": [
+            "right pleural fluid present",
+            "right effusion seen",
+            "moderate right pleural fluid"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 2,
+          "any_of": [
+            {
+              "term": "meniscus reaches lateral chest wall mid-height",
+              "synonyms": [
+                "meniscus to mid hemithorax",
+                "fluid abutting lateral wall mid-level",
+                "mid-level lateral wall meniscus"
+              ]
+            },
+            {
+              "term": "right hemidiaphragm silhouette obscured",
+              "synonyms": [
+                "diaphragm outline lost right",
+                "subdiaphragmatic border indistinct right",
+                "diaphragm not seen right"
+              ]
+            },
+            {
+              "term": "blunting with lateral wall contact",
+              "synonyms": [
+                "meniscus contacting lateral wall",
+                "sidewall meniscus right",
+                "lateral chest wall meniscus sign"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "severe": {
+      "must_all": [
+        {
+          "term": "right pleural effusion present",
+          "synonyms": [
+            "large right effusion",
+            "massive right pleural fluid",
+            "tension hydrothorax right"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "near-complete right hemithorax opacification",
+              "synonyms": [
+                "white-out right hemithorax",
+                "almost complete right opacification",
+                "total right lung opacification"
+              ]
+            },
+            {
+              "term": "mediastinal shift away (tension hydrothorax)",
+              "synonyms": [
+                "mediastinum shifted left",
+                "trachea deviated left",
+                "cardiomediastinal shift left"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "Pleural effusion severity is graded based on the vertical height of the meniscus and degree of hemithorax opacification.",
+      "A 'questionable' grade applies when the finding is subtle or equivocal, often at the threshold of detection.",
+      "Small (mild) effusions typically blunt only the costophrenic angle without significant lateral wall contact.",
+      "moderate effusions reach mid-chest level and may obscure the diaphragm or contact the lateral wall.",
+      "severe effusions occupy most of the hemithorax, often with mediastinal shift if under tension."
+    ],
+    "acceptable_alternate_terminology": [
+      ["pleural effusion", "pleural fluid", "hydrothorax"],
+      ["meniscus sign", "fluid level", "curvilinear pleural contour"],
+      ["costophrenic angle blunting", "CP angle blunting", "CP angle obliteration"]
+    ]
+  }
+},
+"What is the severity of pleural effusion on the left? (none, questionable, mild, moderate, severe)": {
+  "type": "ordinal",
+  "answers": {
+    "none": {
+      "must_all": [
+        {
+          "term": "no left pleural effusion",
+          "synonyms": [
+            "left CP angle sharp",
+            "no left pleural fluid",
+            "left costophrenic angle normal",
+            "no left pleural collection"
+          ]
+        }
+      ],
+      "at_least_k_of": []
+    },
+    "questionable": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "subtle left costophrenic blunting",
+              "synonyms": [
+                "minimally blunted left CP angle",
+                "equivocal left CP angle",
+                "slight left costophrenic angle blunting"
+              ]
+            },
+            {
+              "term": "equivocal pleural line left",
+              "synonyms": [
+                "questionable left meniscus",
+                "indeterminate pleural contour left",
+                "possible meniscus sign left"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "mild": {
+      "must_all": [
+        {
+          "term": "left pleural effusion present",
+          "synonyms": [
+            "small left effusion",
+            "trace left pleural fluid",
+            "minor left pleural effusion"
+          ]
+        }
+      ],
+      "at_least_k_of": []
+    },
+    "moderate": {
+      "must_all": [
+        {
+          "term": "left pleural effusion present",
+          "synonyms": [
+            "left pleural fluid present",
+            "left effusion seen",
+            "moderate left pleural fluid"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 2,
+          "any_of": [
+            {
+              "term": "meniscus reaches lateral chest wall mid-height",
+              "synonyms": [
+                "meniscus to mid hemithorax left",
+                "fluid abutting lateral wall mid-level left",
+                "mid-level lateral wall meniscus left"
+              ]
+            },
+            {
+              "term": "left hemidiaphragm silhouette obscured",
+              "synonyms": [
+                "diaphragm outline lost left",
+                "subdiaphragmatic border indistinct left",
+                "diaphragm not seen left"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "severe": {
+      "must_all": [
+        {
+          "term": "left pleural effusion present",
+          "synonyms": [
+            "large left effusion",
+            "massive left pleural fluid",
+            "tension hydrothorax left"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "near-complete left hemithorax opacification",
+              "synonyms": [
+                "white-out left hemithorax",
+                "almost complete left opacification",
+                "total left lung opacification"
+              ]
+            },
+            {
+              "term": "mediastinal shift away (tension hydrothorax)",
+              "synonyms": [
+                "mediastinum shifted right",
+                "trachea deviated right",
+                "cardiomediastinal shift right"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "Pleural effusion severity is graded based on the vertical height of the meniscus and degree of hemithorax opacification.",
+      "A 'questionable' grade applies when the finding is subtle or equivocal, often at the threshold of detection.",
+      "Small (mild) effusions typically blunt only the costophrenic angle without significant lateral wall contact.",
+      "moderate effusions reach mid-chest level and may obscure the diaphragm or contact the lateral wall.",
+      "severe effusions occupy most of the hemithorax, often with mediastinal shift if under tension."
+    ],
+    "acceptable_alternate_terminology": [
+      ["pleural effusion", "pleural fluid", "hydrothorax"],
+      ["meniscus sign", "fluid level", "curvilinear pleural contour"],
+      ["costophrenic angle blunting", "CP angle blunting", "CP angle obliteration"]
+    ]
+  }
+},
+"What is the severity of pulmonary opacities in the right lung? (none, questionable, mild, moderate, severe)": {
+  "type": "ordinal",
+  "answers": {
+    "none": {
+      "must_all": [
+        {
+          "term": "no right lung opacities",
+          "synonyms": [
+            "right lung clear",
+            "no focal opacity right",
+            "right lung normal",
+            "no consolidation right"
+          ]
+        }
+      ],
+      "at_least_k_of": []
+    },
+    "questionable": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "subtle right opacity questionable",
+              "synonyms": [
+                "very faint right opacity",
+                "equivocal density right",
+                "possible right airspace change"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "mild": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "<25% right lung involved",
+              "synonyms": [
+                "small focal opacity right",
+                "limited patchy change right",
+                "minor right lung consolidation"
+              ]
+            },
+            {
+              "term": "focal patchy opacity right",
+              "synonyms": [
+                "small patchy consolidation right",
+                "minor airspace change right",
+                "localized opacity right"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "moderate": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "25–50% right lung involved",
+              "synonyms": [
+                "multifocal opacities right",
+                "moderate extent right",
+                "moderate right consolidation"
+              ]
+            },
+            {
+              "term": "multifocal right opacities",
+              "synonyms": [
+                "scattered consolidations right",
+                "multiple patchy areas right",
+                "multiple focal opacities right"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "severe": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": ">50% right lung involved",
+              "synonyms": [
+                "near confluent opacification right",
+                "extensive airspace disease right",
+                "diffuse right lung consolidation"
+              ]
+            },
+            {
+              "term": "near confluent right opacification",
+              "synonyms": [
+                "diffuse dense consolidation right",
+                "widespread right opacity",
+                "almost total right lung opacification"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "Estimate percentage involvement of the right lung by summing visible airspace opacities across zones.",
+      "mild: less than 25% of lung involved; often localized or patchy.",
+      "moderate: 25–50% of lung involved, often multifocal.",
+      "severe: greater than 50% involvement, often confluent or diffuse.",
+      "questionable: extremely subtle findings with uncertain significance."
+    ],
+    "acceptable_alternate_terminology": [
+      ["opacity", "airspace opacity", "consolidation", "airspace disease", "infiltrate"],
+      ["focal", "patchy", "localized", "multifocal", "diffuse"],
+      ["involved", "affected", "occupied"]
+    ]
+  }
+},
+"What is the severity of pulmonary opacities in the left lung? (none, questionable, mild, moderate, severe)": {
+  "type": "ordinal",
+  "answers": {
+    "none": {
+      "must_all": [
+        {
+          "term": "no left lung opacities",
+          "synonyms": [
+            "left lung clear",
+            "no focal opacity left",
+            "left lung normal",
+            "no consolidation left"
+          ]
+        }
+      ],
+      "at_least_k_of": []
+    },
+    "questionable": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "subtle left opacity questionable",
+              "synonyms": [
+                "very faint left opacity",
+                "equivocal density left",
+                "possible left airspace change"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "mild": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "<25% left lung involved",
+              "synonyms": [
+                "small focal opacity left",
+                "limited patchy change left",
+                "minor left lung consolidation"
+              ]
+            },
+            {
+              "term": "focal patchy opacity left",
+              "synonyms": [
+                "small patchy consolidation left",
+                "minor airspace change left",
+                "localized opacity left"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "moderate": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "25–50% left lung involved",
+              "synonyms": [
+                "multifocal opacities left",
+                "moderate extent left",
+                "moderate left consolidation"
+              ]
+            },
+            {
+              "term": "multifocal left opacities",
+              "synonyms": [
+                "scattered consolidations left",
+                "multiple patchy areas left",
+                "multiple focal opacities left"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "severe": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": ">50% left lung involved",
+              "synonyms": [
+                "near confluent opacification left",
+                "extensive airspace disease left",
+                "diffuse left lung consolidation"
+              ]
+            },
+            {
+              "term": "near confluent left opacification",
+              "synonyms": [
+                "diffuse dense consolidation left",
+                "widespread left opacity",
+                "almost total left lung opacification"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "additional_guidance": {
+    "disambiguation_rules": [
+      "Estimate percentage involvement of the left lung by summing visible airspace opacities across zones.",
+      "mild: less than 25% of lung involved; often localized or patchy.",
+      "moderate: 25–50% of lung involved, often multifocal.",
+      "severe: greater than 50% involvement, often confluent or diffuse.",
+      "questionable: extremely subtle findings with uncertain significance."
+    ],
+    "acceptable_alternate_terminology": [
+      ["opacity", "airspace opacity", "consolidation", "airspace disease", "infiltrate"],
+      ["focal", "patchy", "localized", "multifocal", "diffuse"],
+      ["involved", "affected", "occupied"]
+    ]
+  }
+},
+"What is the severity of atelectasis on the right side? (none, questionable, mild, moderate, severe)": {
+  "type": "ordinal",
+  "answers": {
+    "none": {
+      "must_all": [
+        {
+          "term": "no right atelectasis",
+          "synonyms": [
+            "no volume loss right",
+            "no collapse right"
+          ]
+        }
+      ],
+      "at_least_k_of": []
+    },
+    "questionable": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "subtle right volume loss",
+              "synonyms": [
+                "equivocal volume loss right",
+                "mild crowding right"
+              ]
+            },
+            {
+              "term": "equivocal fissure displacement right",
+              "synonyms": [
+                "questionable fissure shift right",
+                "minor fissure hint right"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "mild": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "segmental atelectasis right",
+              "synonyms": [
+                "subsegmental atelectasis right",
+                "plate-like atelectasis right"
+              ]
+            },
+            {
+              "term": "minor fissure displacement right",
+              "synonyms": [
+                "small fissure shift right",
+                "slight fissure movement right"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "moderate": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 2,
+          "any_of": [
+            {
+              "term": "lobar atelectasis right",
+              "synonyms": [
+                "partial lobar collapse right",
+                "major segment collapse right"
+              ]
+            },
+            {
+              "term": "diaphragm elevation right",
+              "synonyms": [
+                "elevated right hemidiaphragm",
+                "raised right diaphragm"
+              ]
+            },
+            {
+              "term": "mediastinal shift toward right",
+              "synonyms": [
+                "trachea/mediastinum deviated right",
+                "shift to right side"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "severe": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 2,
+          "any_of": [
+            {
+              "term": "near-complete right lung collapse",
+              "synonyms": [
+                "almost complete collapse right",
+                "extensive right atelectasis"
+              ]
+            },
+            {
+              "term": "marked volume loss right",
+              "synonyms": [
+                "severe volume reduction right",
+                "shrunken right hemithorax"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+},
+"What is the severity of atelectasis on the left side? (none, questionable, mild, moderate, severe)": {
+  "type": "ordinal",
+  "answers": {
+    "none": {
+      "must_all": [
+        {
+          "term": "no left atelectasis",
+          "synonyms": [
+            "no volume loss left",
+            "no collapse left"
+          ]
+        }
+      ],
+      "at_least_k_of": []
+    },
+    "questionable": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "subtle left volume loss",
+              "synonyms": [
+                "equivocal volume loss left",
+                "mild crowding left"
+              ]
+            },
+            {
+              "term": "equivocal fissure displacement left",
+              "synonyms": [
+                "questionable fissure shift left",
+                "minor fissure hint left"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "mild": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "segmental atelectasis left",
+              "synonyms": [
+                "subsegmental atelectasis left",
+                "plate-like atelectasis left"
+              ]
+            },
+            {
+              "term": "minor fissure displacement left",
+              "synonyms": [
+                "small fissure shift left",
+                "slight fissure movement left"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "moderate": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 2,
+          "any_of": [
+            {
+              "term": "lobar atelectasis left",
+              "synonyms": [
+                "partial lobar collapse left",
+                "major segment collapse left"
+              ]
+            },
+            {
+              "term": "diaphragm elevation left",
+              "synonyms": [
+                "elevated left hemidiaphragm",
+                "raised left diaphragm"
+              ]
+            },
+            {
+              "term": "mediastinal shift toward left",
+              "synonyms": [
+                "trachea/mediastinum deviated left",
+                "shift to left side"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "severe": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 2,
+          "any_of": [
+            {
+              "term": "near-complete left lung collapse",
+              "synonyms": [
+                "almost complete collapse left",
+                "extensive left atelectasis"
+              ]
+            },
+            {
+              "term": "marked volume loss left",
+              "synonyms": [
+                "severe volume reduction left",
+                "shrunken left hemithorax"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+},
+"What is the size of the heart? (normal, borderline, enlarged, massively enlarged)": {
+  "type": "ordinal",
+  "answers": {
+    "normal": {
+      "must_all": [
+        {
+          "term": "heart size normal",
+          "synonyms": [
+            "normal cardiac silhouette",
+            "CTR within normal limits"
+          ]
+        }
+      ],
+      "at_least_k_of": [],
+      "forbidden": [
+        {
+          "term": "cardiothoracic ratio increased",
+          "synonyms": [
+            "CTR above normal",
+            "cardiomegaly present"
+          ]
+        }
+      ]
+    },
+    "borderline": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "cardiothoracic ratio borderline",
+              "synonyms": [
+                "CTR 0.50–0.55",
+                "borderline heart size"
+              ]
+            },
+            {
+              "term": "borderline enlarged cardiac silhouette",
+              "synonyms": [
+                "mildly enlarged silhouette",
+                "borderline cardiomegaly"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "enlarged": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "cardiothoracic ratio increased",
+              "synonyms": [
+                "CTR > 0.50 (PA)",
+                "CTR > 0.55 (AP)"
+              ]
+            },
+            {
+              "term": "enlarged cardiac silhouette",
+              "synonyms": [
+                "cardiomegaly present",
+                "heart size enlarged"
+              ]
+            }
+          ]
+        }
+      ],
+      "context": {
+        "caps": [
+          {
+            "if": "projection == AP",
+            "max_score": 4
+          }
+        ]
+      }
+    },
+    "massively enlarged": {
+      "must_all": [],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "marked cardiomegaly",
+              "synonyms": [
+                "massive cardiomegaly",
+                "very large heart size"
+              ]
+            },
+            {
+              "term": "cardiothoracic ratio greatly increased",
+              "synonyms": [
+                "CTR > 0.65",
+                "CTR markedly elevated"
+              ]
+            }
+          ]
+        }
+      ],
+      "context": {
+        "caps": [
+          {
+            "if": "projection == AP",
+            "max_score": 4
+          }
+        ]
+      }
+    }
+  }
+},
+"Which side shows more severe pleural effusion? (right, left, same severity, none)": {
+  "type": "comparative",
+  "answers": {
+    "right": {
+      "must_all": [
+        {
+          "term": "right pleural effusion present",
+          "synonyms": [
+            "pleural fluid on right",
+            "right-sided effusion"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "right > left effusion",
+              "synonyms": [
+                "greater effusion right",
+                "more fluid on right"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "no right pleural effusion",
+          "synonyms": [
+            "no pleural fluid right",
+            "right CP angle sharp"
+          ]
+        }
+      ]
+    },
+    "left": {
+      "must_all": [
+        {
+          "term": "left pleural effusion present",
+          "synonyms": [
+            "pleural fluid on left",
+            "left-sided effusion"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "left > right effusion",
+              "synonyms": [
+                "greater effusion left",
+                "more fluid on left"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "same severity": {
+      "must_all": [
+        {
+          "term": "pleural effusion similar bilaterally",
+          "synonyms": [
+            "effusions symmetric",
+            "right = left effusion"
+          ]
+        }
+      ]
+    },
+    "none": {
+      "must_all": [
+        {
+          "term": "no pleural effusion bilaterally",
+          "synonyms": [
+            "no pleural fluid either side",
+            "both CP angles sharp"
+          ]
+        }
+      ]
+    }
+  }
+},
+"Which side shows more severe pulmonary opacities? (right, left, same severity, none)": {
+  "type": "comparative",
+  "answers": {
+    "right": {
+      "must_all": [
+        {
+          "term": "right lung opacities present",
+          "synonyms": [
+            "opacity present right",
+            "consolidation right"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "right > left opacity",
+              "synonyms": [
+                "greater extent on right",
+                "denser consolidation right"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "left": {
+      "must_all": [
+        {
+          "term": "left lung opacities present",
+          "synonyms": [
+            "opacity present left",
+            "consolidation left"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "left > right opacity",
+              "synonyms": [
+                "greater extent on left",
+                "denser consolidation left"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "same severity": {
+      "must_all": [
+        {
+          "term": "opacities similar bilaterally",
+          "synonyms": [
+            "symmetric opacities",
+            "right = left opacity"
+          ]
+        }
+      ]
+    },
+    "none": {
+      "must_all": [
+        {
+          "term": "no pulmonary opacities bilaterally",
+          "synonyms": [
+            "lungs clear bilaterally",
+            "no focal opacities either side"
+          ]
+        }
+      ]
+    }
+  }
+},
+"Which side shows more severe atelectasis? (right, left, same severity, none)": {
+  "type": "comparative",
+  "answers": {
+    "right": {
+      "must_all": [
+        {
+          "term": "right atelectasis present",
+          "synonyms": [
+            "collapse present right",
+            "right lung atelectasis"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "right > left atelectasis",
+              "synonyms": [
+                "more volume loss right",
+                "greater collapse right"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "left": {
+      "must_all": [
+        {
+          "term": "left atelectasis present",
+          "synonyms": [
+            "collapse present left",
+            "left lung atelectasis"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "left > right atelectasis",
+              "synonyms": [
+                "more volume loss left",
+                "greater collapse left"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "same severity": {
+      "must_all": [
+        {
+          "term": "atelectasis similar bilaterally",
+          "synonyms": [
+            "symmetric atelectasis",
+            "right = left atelectasis"
+          ]
+        }
+      ]
+    },
+    "none": {
+      "must_all": [
+        {
+          "term": "no atelectasis bilaterally",
+          "synonyms": [
+            "no lobar collapse either side",
+            "no bilateral atelectasis"
+          ]
+        }
+      ]
+    }
+  }
+},
+"What is the position of the endotracheal tube? (not present, correctly positioned, too low, too high)": {
+  "type": "spatial",
+  "answers": {
+    "not present": {
+      "must_all": [
+        {
+          "term": "no endotracheal tube",
+          "synonyms": [
+            "no ETT visualized",
+            "ETT absent"
+          ]
+        }
+      ]
+    },
+    "correctly positioned": {
+      "must_all": [
+        {
+          "term": "endotracheal tube present",
+          "synonyms": [
+            "ETT present",
+            "endotracheal tube seen"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "ETT tip 3–5 cm above carina",
+              "synonyms": [
+                "tip 3-5 cm above carina",
+                "mid-tracheal tip"
+              ]
+            },
+            {
+              "term": "mid-tracheal position",
+              "synonyms": [
+                "appropriate tracheal level",
+                "not near carina"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "ETT at or below carina",
+          "synonyms": [
+            "tip at carina",
+            "tip below carina"
+          ]
+        },
+        {
+          "term": "mainstem intubation",
+          "synonyms": [
+            "right mainstem intubation",
+            "main bronchus intubation"
+          ]
+        }
+      ]
+    },
+    "too low": {
+      "must_all": [
+        {
+          "term": "endotracheal tube present",
+          "synonyms": [
+            "ETT present",
+            "endotracheal tube seen"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "ETT at or below carina",
+              "synonyms": [
+                "tip at carina",
+                "tip below carina"
+              ]
+            },
+            {
+              "term": "mainstem intubation",
+              "synonyms": [
+                "right mainstem intubation",
+                "bronchial intubation"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+},
+"What is the position of the central venous catheter? (not present, correctly positioned, too low, too high, turned)": {
+  "type": "spatial",
+  "answers": {
+    "not present": {
+      "must_all": [
+        {
+          "term": "no central venous catheter",
+          "synonyms": [
+            "no CVC",
+            "no central line"
+          ]
+        }
+      ]
+    },
+    "correct": {
+      "must_all": [
+        {
+          "term": "central venous catheter present",
+          "synonyms": [
+            "CVC present",
+            "central line present"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "CVC tip at cavoatrial junction",
+              "synonyms": [
+                "tip at CAJ",
+                "tip in lower SVC"
+              ]
+            },
+            {
+              "term": "CVC course expected",
+              "synonyms": [
+                "catheter follows expected path",
+                "normal venous course"
+              ]
+            }
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "term": "CVC tip too high",
+          "synonyms": [
+            "tip in upper SVC",
+            "tip in brachiocephalic"
+          ]
+        },
+        {
+          "term": "CVC tip too low",
+          "synonyms": [
+            "tip in right atrium",
+            "intracardiac tip"
+          ]
+        },
+        {
+          "term": "CVC turned or coiled",
+          "synonyms": [
+            "catheter malpositioned",
+            "retrograde into neck"
+          ]
+        }
+      ]
+    },
+    "too high": {
+      "must_all": [
+        {
+          "term": "central venous catheter present",
+          "synonyms": [
+            "CVC present",
+            "central line present"
+          ]
+        },
+        {
+          "term": "CVC tip too high",
+          "synonyms": [
+            "tip in upper SVC",
+            "tip above CAJ"
+          ]
+        }
+      ]
+    },
+    "too low": {
+      "must_all": [
+        {
+          "term": "central venous catheter present",
+          "synonyms": [
+            "CVC present",
+            "central line present"
+          ]
+        },
+        {
+          "term": "CVC tip too low",
+          "synonyms": [
+            "tip in right atrium",
+            "intracardiac tip"
+          ]
+        }
+      ]
+    },
+    "turned": {
+      "must_all": [
+        {
+          "term": "central venous catheter present",
+          "synonyms": [
+            "CVC present",
+            "central line present"
+          ]
+        }
+      ],
+      "at_least_k_of": [
+        {
+          "k": 1,
+          "any_of": [
+            {
+              "term": "CVC turned or coiled",
+              "synonyms": [
+                "looped catheter",
+                "coiled line"
+              ]
+            },
+            {
+              "term": "retrograde catheter into neck",
+              "synonyms": [
+                "catheter up the jugular",
+                "retrograde into IJ"
+              ]
+            },
+            {
+              "term": "catheter into azygos",
+              "synonyms": [
+                "CVC in azygos vein",
+                "line in azygos"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+},
+"On which side is a chest tube present? (right, left, both, none)": {
+  "type": "spatial",
+  "answers": {
+    "none": {
+      "must_all": [
+        {
+          "term": "no chest tube",
+          "synonyms": [
+            "no thoracostomy tube",
+            "no intercostal drain"
+          ]
+        }
+      ]
+    },
+    "right": {
+      "must_all": [
+        {
+          "term": "right chest tube present",
+          "synonyms": [
+            "right thoracostomy tube",
+            "right intercostal drain"
+          ]
+        }
+      ]
+    },
+    "left": {
+      "must_all": [
+        {
+          "term": "left chest tube present",
+          "synonyms": [
+            "left thoracostomy tube",
+            "left intercostal drain"
+          ]
+        }
+      ]
+    },
+    "both": {
+      "must_all": [
+        {
+          "term": "right chest tube present",
+          "synonyms": [
+            "right thoracostomy tube",
+            "right intercostal drain"
+          ]
+        },
+        {
+          "term": "left chest tube present",
+          "synonyms": [
+            "left thoracostomy tube",
+            "left intercostal drain"
+          ]
+        }
+      ]
+    }
+  }
+}
+}
