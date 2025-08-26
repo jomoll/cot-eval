@@ -1,11 +1,13 @@
 import json
 import os
+import unicodedata
+import re
 import asyncio
 from tqdm.asyncio import tqdm
 import numpy as np
-from openai import AsyncAzureOpenAI
+from openai import AsyncAzureOpenAI, AzureOpenAI
 import random
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional, Tuple
 import argparse
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -58,7 +60,7 @@ else:
 # -----------------------
 # Rate limiting config
 # -----------------------
-MAX_CONCURRENT_REQUESTS = 5
+MAX_CONCURRENT_REQUESTS = 10
 BASE_DELAY = 1.0
 MAX_RETRIES = 5
 BACKOFF_MULTIPLIER = 2
@@ -73,6 +75,15 @@ if args.evaluation_model=="gpt-4-turbo":
         api_version=OPENAI_VERSION,
         azure_endpoint=AZURE_ENDPOINT,
     )
+
+if args.evaluation_model == "gpt-5":
+    client = AsyncAzureOpenAI(
+        api_version=OPENAI_VERSION,
+        azure_endpoint=AZURE_ENDPOINT,
+        api_key=OPENAI_KEY,
+    )
+    print("client:", client)
+
 else:
     model_name = args.evaluation_model 
     print(f"Loading model from {model_name}...")
@@ -211,29 +222,58 @@ def build_qsk(spec_map, question, groundtruth_answer, context_flags=None):
     }
     return json.dumps(qsk, ensure_ascii=False, indent=2), (context_flags or {})
 
-def validate_judge_json(metric: str, obj: Dict[str, Any], cot) -> Optional[str]:
-    # return None if ok, else error string
+def _normalize_text(s: str) -> str:
+    s = s.replace("\r\n", "\n").replace("\r", "\n")
+    s = unicodedata.normalize("NFKC", s)
+    s = s.translate(str.maketrans({
+        '\u2018':"'", '\u2019':"'", '\u201C':'"', '\u201D':'"',
+        '\u2013':'-', '\u2014':'-',
+        '\u00A0':' ', '\u200B':''
+    }))
+    s = re.sub(r'\s+', ' ', s).strip()
+    return s
+
+def _close_enough(a: str, b: str, rel_tol: float = 0.02) -> bool:
+    n, m = len(a), len(b)
+    max_dist = max(1, int(rel_tol * max(n, m)))
+    if abs(n - m) > max_dist: return False
+    dp = list(range(m+1))
+    for i, ca in enumerate(a, 1):
+        prev, dp[0] = dp[0], i
+        for j, cb in enumerate(b, 1):
+            cur = min(dp[j] + 1, dp[j-1] + 1, prev + (ca != cb))
+            prev, dp[j] = dp[j], cur
+    return dp[m] <= max_dist
+
+def validate_judge_json(metric: str, obj: Dict[str, Any], cot: str) -> Optional[str]:
     if not isinstance(obj, dict): return "not a JSON object"
     if "score" not in obj: return "missing 'score'"
-    if not isinstance(obj["score"], int) or obj["score"] not in [1, 2, 3, 4, 5]: return "invalid 'score'"
+    if not isinstance(obj["score"], int) or obj["score"] not in [1,2,3,4,5]: return "invalid 'score'"
     if "quotes" not in obj or not isinstance(obj["quotes"], list): return "missing/invalid 'quotes'"
     if "rationale" not in obj or not isinstance(obj["rationale"], str): return "missing/invalid 'rationale'"
-    if "quote_spans" not in obj or not isinstance(obj["quote_spans"], list): return "missing/invalid 'quote_spans'"
-    if len(obj["quotes"]) != len(obj["quote_spans"]): return "mismatched 'quotes' and 'quote_spans' lengths"
-    for span in obj["quote_spans"]:
-        if (not isinstance(span, list) or len(span) != 2 or
-            not all(isinstance(i, int) and i >= 0 for i in span) or
-            span[0] > span[1]):
-            return "invalid 'quote_spans' entry"
-        if span[1] > len(cot) or cot[span[0]:span[1]] not in obj["quotes"]:
-            return "quote span does not match CoT text"
-        else: print(f"Verified quote span: '{cot[span[0]:span[1]]}', matches '{obj['quotes']}'")
+
+    norm_cot = _normalize_text(cot)
+
+    for i, q in enumerate(obj["quotes"]):
+        if not isinstance(q, str): return f"quote {i} not a string"
+        nq = _normalize_text(q)
+        if nq in norm_cot:
+            continue
+        # tiny fuzzy fallback on a sliding window
+        found = False
+        L = len(nq)
+        for k in range(0, max(0, len(norm_cot) - L + 1), max(1, L//8)):
+            window = norm_cot[k:k+L]
+            if _close_enough(window, nq, rel_tol=0.02):
+                found = True; break
+        if not found:
+            return f"quote {i} not found in CoT after normalization"
     if "abstain" in obj:
         if not isinstance(obj["abstain"], bool): return "invalid 'abstain'"
-        if obj["abstain"]:
-            if "abstain_reason" not in obj or not isinstance(obj["abstain_reason"], str):
-                return "missing/invalid 'abstain_reason' when abstaining"
+        if obj["abstain"] and ("abstain_reason" not in obj or not isinstance(obj["abstain_reason"], str)):
+            return "missing/invalid 'abstain_reason' when abstaining"
     return None
+
 
 def safe_json_parse(s: str) -> Optional[Dict[str, Any]]:
     try:
@@ -322,13 +362,14 @@ async def call_judge(prompt_text: str) -> Dict[str, Any]:
     else:
         try:
             response = await client.chat.completions.create(
-                model=model_name,
+                model=OPENAI_MODEL,
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant that responds ONLY with valid JSON. Do not use markdown formatting or code blocks."},
                     {"role": "user", "content": prompt_text}
                 ],
-                max_tokens=512,
-                temperature=0.0
+                max_completion_tokens=16384,
+                #temperature=0.0
+                #max_tokens=512
             )
             content = response.choices[0].message.content.strip()
             obj = json.loads(content)  # keep behavior
