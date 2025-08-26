@@ -76,6 +76,7 @@ try:
 except Exception:
     LLAMAV_O1_AVAILABLE = False
 
+from api_keys import GEMINI_KEY
 
 # ------------------------
 # Prompts and formatting
@@ -427,17 +428,32 @@ def format_data(sample: Dict[str, Any], model_name: str, modification: Optional[
             },
         ]
 
-    return {
-        "messages": messages,
-        "answer": target,
-        "question": question,
-        "uid": sample["UID"],
-        "question_type": qtype,
-        "image_raw": sample["Image"],
-        "preprocessed_image": img,
-        "prompt_text": user_text,
-        "injected_answer": injected_answer,
-    }
+    if modification in ["none", None]:
+        return {
+            "messages": messages,
+            "target": target,
+            "question": question,
+            "uid": sample["UID"],
+            "question_type": qtype,
+            "image_raw": sample["Image"],
+            "preprocessed_image": img,
+            "prompt_text": user_text,
+            "injected_answer": injected_answer,
+        }
+    else:
+        return {
+            "messages": messages,
+            "target": target,
+            "question": question,
+            "uid": sample["UID"],
+            "question_type": qtype,
+            "image_raw": sample["Image"],
+            "preprocessed_image": img,
+            "prompt_text": user_text,
+            "injected_answer": injected_answer,
+            "original_prediction": sample["prediction"],
+            "original_answer": sample["final_answer"],
+        }
 
 
 ANSWER_PATTERNS = [
@@ -464,6 +480,10 @@ def process_vision_info(messages):
                 images.append(item["image"])
     return images
 
+def load_base_predictions(input_path):
+    with open(input_path, "r") as f:
+        predictions = json.load(f)
+    return predictions
 
 # ------------------------
 # Async inference backend
@@ -486,10 +506,9 @@ class AsyncInferenceBackend:
         if self.model_name in ["gemini-2.5-flash", "gemini-2.5-pro", "gemini-2.5-flash-lite"]:
             if not GEMINI_AVAILABLE:
                 raise RuntimeError("google-genai is not installed but a Gemini model was requested")
-            api_key = os.getenv("GOOGLE_API_KEY", "")
-            if not api_key:
-                raise RuntimeError("Set GOOGLE_API_KEY for Gemini inference")
-            self.client = genai.Client(api_key=api_key)
+            if not GEMINI_KEY:
+                raise RuntimeError("Set GEMINI_KEY for Gemini inference")
+            self.client = genai.Client(api_key=GEMINI_KEY)
             return
 
         if self.model_name == "healthgpt":
@@ -723,15 +742,33 @@ async def run_async(args):
     device = "cuda" if torch.cuda.is_available() else "cpu"
     os.makedirs(args.output_dir, exist_ok=True)
 
-    suffix = args.model_name if args.modification == "none" else f"{args.model_name}_{args.modification}"
+    suffix = args.model_name if args.modification == "none" else f"{args.model_name}/{args.modification}"
     if args.modification in ["vb_bb", "vb_hm", "tb_rad", "tb_la"]:
-        suffix += f"_correct{int(args.leak_correct_answer)}"
+        suffix += f"_correct_{(args.leak_correct_answer)}"
     output_file = os.path.join(args.output_dir, f"{suffix}_predictions.json")
-
+    # create folder if needed
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
     print("Loading dataset...")
     dataset = load_data(args.split)
-    if args.max_samples is not None and args.max_samples > 0:
-        dataset = dataset.select(range(min(args.max_samples, len(dataset))))
+
+    if args.modification not in ["none", None]:
+        uid_to_image = {sample["UID"]: sample["Image"] for sample in dataset}
+        input_path = "../results/{args.model_name}_predictions.json".format(args=args)
+        base_predictions = load_base_predictions(input_path)
+
+        for sample in base_predictions:
+            uid = sample["UID"]
+            if uid in uid_to_image:
+                sample["Image"] = uid_to_image[uid]
+            else:
+                print(f"Warning: UID {uid} not found in dataset, skipping sample.")
+        dataset = base_predictions
+        if args.max_samples is not None and args.max_samples > 0:
+            dataset = dataset[:args.max_samples]
+    
+    else: 
+        if args.max_samples is not None and args.max_samples > 0:
+            dataset = dataset.select(range(min(args.max_samples, len(dataset))))
 
     print("Formatting data...")
     formatted = [format_data(s, args.model_name, args.modification, args.leak_correct_answer) for s in dataset]
@@ -759,17 +796,29 @@ async def run_async(args):
             except Exception as e:
                 pred = f"ERROR: {e}"
             final_answer = extract_final_answer(pred) if isinstance(pred, str) else str(pred)
-            return {
-                "uid": sample["uid"],
-                "question": sample["question"],
-                "prediction": pred,
-                "final_answer": final_answer,
-                "target": sample["answer"],
-                "question_type": sample["question_type"],
-                "modification": args.modification or "none",
-                "leak_correct_answer": bool(args.leak_correct_answer),
-                "injected_answer": sample.get("injected_answer"),
-            }
+            if args.modification not in ["none", None]:
+                return {
+                    "uid": sample["uid"],
+                    "question": sample["question"],
+                    "original_prediction": sample["original_prediction"],
+                    "biased_prediction": pred,
+                    "original_answer": sample["original_answer"],
+                    "biased_answer": final_answer,
+                    "target": sample["target"],
+                    "question_type": sample["question_type"],
+                    "modification": args.modification or "none",
+                    "leak_correct_answer": bool(args.leak_correct_answer),
+                    "injected_answer": sample.get("injected_answer"),
+                }
+            else:
+                return {
+                    "UID": sample["uid"],
+                    "Question": sample["question"],
+                    "Type": sample["question_type"],
+                    "Answer": sample["target"],
+                    "prediction": pred,
+                    "final_answer": final_answer,
+                }
 
     print(f"Running async inference on {len(formatted)} samples with max_concurrency={args.max_concurrency} ...")
     tasks = [_one(s) for s in formatted]
@@ -788,8 +837,12 @@ async def run_async(args):
     dur = time.time() - start_ts
     print(f"Saved {len(results)} predictions to {output_file} in {dur:.1f}s")
 
-    successful = [r for r in results if not str(r["final_answer"]).startswith("ERROR")]
-    correct = sum(1 for r in successful if r["final_answer"].strip().lower() == r["target"].strip().lower())
+    if args.modification in ["none", None]:
+        successful = [r for r in results if not str(r["final_answer"]).startswith("ERROR")]
+        correct = sum(1 for r in successful if r["final_answer"].strip().lower() == r["Answer"].strip().lower())
+    else:
+        successful = [r for r in results if not str(r["biased_answer"]).startswith("ERROR")]
+        correct = sum(1 for r in successful if r["biased_answer"].strip().lower() == r["target"].strip().lower())
     acc = correct / len(successful) if successful else 0.0
     print(f"Successful predictions: {len(successful)}/{len(results)}")
     print(f"Simple accuracy: {acc:.4f} ({correct}/{len(successful)})")

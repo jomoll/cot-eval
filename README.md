@@ -26,6 +26,12 @@ conda env create -f environment.yml
 conda activate cot-eval
 ```
 
+Run inference base case (i.e., without modifications)
+```bash
+cd scripts
+python run_model.py --model-name "google/medgemma-4b-it" --modification none --leak-correct-answer
+```
+
 Run inference with modification
 ```bash
 cd scripts
