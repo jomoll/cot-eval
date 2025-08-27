@@ -3,6 +3,7 @@ import os
 import unicodedata
 import re
 import asyncio
+import httpx
 from tqdm.asyncio import tqdm
 import numpy as np
 from openai import AsyncAzureOpenAI, AzureOpenAI
@@ -46,7 +47,7 @@ output_dir = f"../results/{MODEL_NAME}"
 """
 input_path = f"../results/model-ablation/reader_study_samples.json"
 output_dir = f"../results/model-ablation"
-output_name = f"gpt-4-turbo.json"
+output_name = f"qwen.json"
 
 
 if MOD == "tb_rad":
@@ -65,7 +66,7 @@ else:
 # -----------------------
 # Rate limiting config
 # -----------------------
-MAX_CONCURRENT_REQUESTS = 10
+MAX_CONCURRENT_REQUESTS = 1
 BASE_DELAY = 1.0
 MAX_RETRIES = 5
 BACKOFF_MULTIPLIER = 2
@@ -89,6 +90,26 @@ elif args.evaluation_model == "gpt-5":
         api_key=OPENAI_KEY,
     )
     print("client:", client)
+
+elif args.evaluation_model == "llama-3.3-70b":
+    # Llama model configuration
+    BASE_URL = "http://localhost:9999/v1"
+    TGI_TOKEN = "dacbebe8c973154018a3d0f5"
+    HEADERS = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {TGI_TOKEN}",
+    }
+    TIMEOUT = httpx.Timeout(connect=10.0, read=120.0, write=10.0, pool=10.0)  # Increased read timeout
+    HTTP2 = False
+    LIMITS = httpx.Limits(max_connections=3, max_keepalive_connections=1)
+
+    client = httpx.AsyncClient(
+        base_url=BASE_URL,
+        headers=HEADERS,
+        timeout=TIMEOUT,
+        http2=HTTP2,
+        limits=LIMITS
+    )
 
 else:
     model_name = args.evaluation_model 
@@ -335,6 +356,28 @@ def sort_predictions(predictions):
 # -----------------------
 # Async evaluation helpers
 # -----------------------
+def generate_llama_payload(prompt_text: str) -> dict:
+    """Generate payload for Llama model"""
+    return {
+        "model": "casperhansen/llama-3.3-70b-instruct-awq",
+        "stream": False,  # Use non-streaming for simpler JSON parsing
+        "messages": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that responds ONLY with valid JSON. Do not use markdown formatting or code blocks."
+            },
+            {
+                "role": "user", 
+                "content": prompt_text
+            }
+        ],
+        "temperature": 0.0,
+        "top_k": 0,
+        "top_p": 0.9,
+        "seed": 42,
+        "max_tokens": 512
+    }
+
 async def call_judge(prompt_text: str) -> Dict[str, Any]:
     if client is None:
         try:
@@ -377,6 +420,8 @@ async def call_judge(prompt_text: str) -> Dict[str, Any]:
                         temperature=0.0,
                         max_tokens=512,
                     )
+                content = response.choices[0].message.content.strip()
+
             elif args.evaluation_model  in ["gpt-5", "gpt-5-mini"]:
                 response = await client.chat.completions.create(
                     model=OPENAI_MODEL,
@@ -386,8 +431,21 @@ async def call_judge(prompt_text: str) -> Dict[str, Any]:
                     ],
                     max_completion_tokens=16384,
                 )
+                content = response.choices[0].message.content.strip()
+
+            elif args.evaluation_model == "llama-3.3-70b":
+                payload = generate_llama_payload(prompt_text)
+                
+                try:
+                    response = await client.post("/chat/completions", json=payload)
+                    response.raise_for_status()
+                    
+                    response_data = response.json()
+                    content = response_data["choices"][0]["message"]["content"].strip()
+                    
+                except Exception as e:
+                    raise e
             else: print("unknown model")
-            content = response.choices[0].message.content.strip()
             obj = json.loads(content)  # keep behavior
             if obj is None:
                 print(f"JSON parse failed. Content preview: {repr(content[:100])}")
@@ -398,7 +456,12 @@ async def call_judge(prompt_text: str) -> Dict[str, Any]:
             if any(term in emsg for term in ["rate", "quota", "429", "limit"]):
                 raise RateLimitError(f"Rate limit exceeded: {e}")
             raise
-    
+
+def extract_json_from_text(text: str) -> Optional[Dict[str, Any]]:
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        return None
 
 async def evaluate_single_prediction_async(sample, bias_description) -> Dict[str, Any]:
     cot_with_hint = sample["biased_prediction"]
@@ -445,7 +508,7 @@ async def evaluate_single_prediction_with_retry(semaphore, sample, bias_descript
                 jitter = random.uniform(0, BASE_DELAY)
                 await asyncio.sleep(jitter)
                 return await evaluate_single_prediction_async(sample, bias_description)
-            except RateLimitError as e:
+            except Exception as e:
                 if attempt == MAX_RETRIES - 1:
                     print(f"Max retries exceeded for sample {sample['uid']}: {e}")
                     return {
@@ -457,14 +520,6 @@ async def evaluate_single_prediction_with_retry(semaphore, sample, bias_descript
                 delay = BASE_DELAY * (BACKOFF_MULTIPLIER ** attempt) + random.uniform(0, 1)
                 print(f"Rate limit hit for sample {sample['uid']}, retrying in {delay:.2f}s (attempt {attempt + 1}/{MAX_RETRIES})")
                 await asyncio.sleep(delay)
-            except Exception as e:
-                print(f"Unexpected error for sample {sample['uid']}: {e}")
-                return {
-                    "uid": sample["uid"],
-                    "cot_no_hint": sample.get("original_prediction", ""),
-                    "cot_with_hint": sample["biased_prediction"],
-                    "eval": {"error": f"Unexpected error: {str(e)}"}
-                }
 
 async def evaluate_predictions_async(predictions, bias_description):
     print(f"Evaluating {len(predictions)} predictions with async processing...")
