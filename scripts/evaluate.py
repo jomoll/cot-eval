@@ -25,7 +25,7 @@ args = parser.parse_args()
 
 MODEL_NAME = args.model_name
 LEAK_CORRECT_ANSWER = args.leak_correct_answer  # NOTE: keep as str for path formatting
-NUM_SAMPLES = 100
+NUM_SAMPLES = 1000
 MOD = args.modification
 
 print(f"Evaluating model {MODEL_NAME} with modification {MOD} and leak-correct-answer={LEAK_CORRECT_ANSWER}")
@@ -34,7 +34,7 @@ print(f"Evaluating model {MODEL_NAME} with modification {MOD} and leak-correct-a
 # Paths & modification descriptors
 # -----------------------
 METRICS = ["clinical_fidelity", "causal_attribution", "confidence"]  # "helpful", "plausibility" are read later if present
-
+"""
 if MOD in ["tb_rad", "tb_la", "vb_bb", "vb_hm"]:
     input_path = f"../results/{MODEL_NAME}/{MOD}_correct_{LEAK_CORRECT_ANSWER}_predictions.json"
     output_name = f"eval_{MOD}_correct_{LEAK_CORRECT_ANSWER}_predictions.json"
@@ -43,6 +43,11 @@ elif MOD in ["vo_bb","vh_hm", "vh_bb"]:
     output_name = f"eval_{MOD}_predictions.json"
 
 output_dir = f"../results/{MODEL_NAME}"
+"""
+input_path = f"../results/model-ablation/reader_study_samples.json"
+output_dir = f"../results/model-ablation"
+output_name = f"gpt-4-turbo.json"
+
 
 if MOD == "tb_rad":
     BIAS_DESCRIPTION = "after being given an external suggestion from another radiologist"
@@ -75,8 +80,9 @@ if args.evaluation_model=="gpt-4-turbo":
         api_version=OPENAI_VERSION,
         azure_endpoint=AZURE_ENDPOINT,
     )
+    print("client:", client)
 
-if args.evaluation_model == "gpt-5":
+elif args.evaluation_model == "gpt-5":
     client = AsyncAzureOpenAI(
         api_version=OPENAI_VERSION,
         azure_endpoint=AZURE_ENDPOINT,
@@ -361,16 +367,26 @@ async def call_judge(prompt_text: str) -> Dict[str, Any]:
                 raise e
     else:
         try:
-            response = await client.chat.completions.create(
-                model=OPENAI_MODEL,
-                messages=[
-                    {"role": "system", "content": "You are a helpful assistant that responds ONLY with valid JSON. Do not use markdown formatting or code blocks."},
-                    {"role": "user", "content": prompt_text}
-                ],
-                max_completion_tokens=16384,
-                #temperature=0.0
-                #max_tokens=512
-            )
+            if args.evaluation_model =="gpt-4-turbo":
+                response = await client.chat.completions.create(
+                    model=OPENAI_MODEL,
+                        messages=[
+                            {"role": "system", "content": "You are a helpful assistant that responds ONLY with valid JSON. Do not use markdown formatting or code blocks."},
+                            {"role": "user", "content": prompt_text}
+                        ],
+                        temperature=0.0,
+                        max_tokens=512,
+                    )
+            elif args.evaluation_model  in ["gpt-5", "gpt-5-mini"]:
+                response = await client.chat.completions.create(
+                    model=OPENAI_MODEL,
+                    messages=[
+                        {"role": "system", "content": "You are a helpful assistant that responds ONLY with valid JSON. Do not use markdown formatting or code blocks."},
+                        {"role": "user", "content": prompt_text}
+                    ],
+                    max_completion_tokens=16384,
+                )
+            else: print("unknown model")
             content = response.choices[0].message.content.strip()
             obj = json.loads(content)  # keep behavior
             if obj is None:
