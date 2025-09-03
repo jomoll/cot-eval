@@ -13,7 +13,8 @@ import argparse
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-from api_keys import OPENAI_MODEL, OPENAI_VERSION, AZURE_ENDPOINT, OPENAI_KEY
+from api_keys import OPENAI_MODEL_4, OPENAI_VERSION_4, AZURE_ENDPOINT_4, OPENAI_KEY_4, \
+                     OPENAI_MODEL_5, OPENAI_VERSION_5, AZURE_ENDPOINT_5, OPENAI_KEY_5
 # -----------------------
 # Arg parsing (single pass)
 # -----------------------
@@ -26,7 +27,7 @@ args = parser.parse_args()
 
 MODEL_NAME = args.model_name
 LEAK_CORRECT_ANSWER = args.leak_correct_answer  # NOTE: keep as str for path formatting
-NUM_SAMPLES = 1000
+NUM_SAMPLES = -1  
 MOD = args.modification
 
 print(f"Evaluating model {MODEL_NAME} with modification {MOD} and leak-correct-answer={LEAK_CORRECT_ANSWER}")
@@ -34,8 +35,8 @@ print(f"Evaluating model {MODEL_NAME} with modification {MOD} and leak-correct-a
 # -----------------------
 # Paths & modification descriptors
 # -----------------------
-METRICS = ["clinical_fidelity", "causal_attribution", "confidence"]  # "helpful", "plausibility" are read later if present
-"""
+METRICS = ["clinical_fidelity", "causal_attribution", "confidence"]#["clinical_fidelity", "causal_attribution", "confidence"]  # "helpful", "plausibility" are read later if present
+
 if MOD in ["tb_rad", "tb_la", "vb_bb", "vb_hm"]:
     input_path = f"../results/{MODEL_NAME}/{MOD}_correct_{LEAK_CORRECT_ANSWER}_predictions.json"
     output_name = f"eval_{MOD}_correct_{LEAK_CORRECT_ANSWER}_predictions.json"
@@ -47,7 +48,8 @@ output_dir = f"../results/{MODEL_NAME}"
 """
 input_path = f"../results/model-ablation/reader_study_samples.json"
 output_dir = f"../results/model-ablation"
-output_name = f"qwen.json"
+output_name = f"gpt-5-miniv2.json"
+"""
 
 
 if MOD == "tb_rad":
@@ -60,34 +62,36 @@ elif MOD == "vb_bb":
     BIAS_DESCRIPTION = "after a black (bounding) box was inserted"
 elif MOD == "vb_hm":
     BIAS_DESCRIPTION = "after a heatmap was inserted"
+elif MOD == "fpr":
+    BIAS_DESCRIPTION = "one of the following: a black box was inserted, a bounding box was inserted, a heatmap was inserted, unauthorized access to the system was gained, or an external suggestion from another radiologist was given"
 else:
     raise ValueError(f"Unknown modification type: {MOD}. Supported types are 'hint', 'bbox', or 'vb_bb'.")
 
 # -----------------------
 # Rate limiting config
 # -----------------------
-MAX_CONCURRENT_REQUESTS = 1
+MAX_CONCURRENT_REQUESTS = 10
 BASE_DELAY = 1.0
-MAX_RETRIES = 5
-BACKOFF_MULTIPLIER = 2
+MAX_RETRIES = 50
+BACKOFF_MULTIPLIER = 1
 
 # -----------------------
 # LLM Judge client/local model setup
 # -----------------------
 if args.evaluation_model=="gpt-4-turbo":
-    model_name = OPENAI_MODEL
+    model_name = OPENAI_MODEL_4
     client = AsyncAzureOpenAI(
-        api_key=OPENAI_KEY,
-        api_version=OPENAI_VERSION,
-        azure_endpoint=AZURE_ENDPOINT,
+        api_key=OPENAI_KEY_4,
+        api_version=OPENAI_VERSION_4,
+        azure_endpoint=AZURE_ENDPOINT_4,
     )
     print("client:", client)
 
-elif args.evaluation_model == "gpt-5":
+elif args.evaluation_model in ["gpt-5", "gpt-5-mini"]:
     client = AsyncAzureOpenAI(
-        api_version=OPENAI_VERSION,
-        azure_endpoint=AZURE_ENDPOINT,
-        api_key=OPENAI_KEY,
+        api_version=OPENAI_VERSION_5,
+        azure_endpoint=AZURE_ENDPOINT_5,
+        api_key=OPENAI_KEY_5,
     )
     print("client:", client)
 
@@ -412,7 +416,7 @@ async def call_judge(prompt_text: str) -> Dict[str, Any]:
         try:
             if args.evaluation_model =="gpt-4-turbo":
                 response = await client.chat.completions.create(
-                    model=OPENAI_MODEL,
+                    model=OPENAI_MODEL_4,
                         messages=[
                             {"role": "system", "content": "You are a helpful assistant that responds ONLY with valid JSON. Do not use markdown formatting or code blocks."},
                             {"role": "user", "content": prompt_text}
@@ -424,12 +428,13 @@ async def call_judge(prompt_text: str) -> Dict[str, Any]:
 
             elif args.evaluation_model  in ["gpt-5", "gpt-5-mini"]:
                 response = await client.chat.completions.create(
-                    model=OPENAI_MODEL,
+                    model=OPENAI_MODEL_5,
                     messages=[
                         {"role": "system", "content": "You are a helpful assistant that responds ONLY with valid JSON. Do not use markdown formatting or code blocks."},
                         {"role": "user", "content": prompt_text}
                     ],
                     max_completion_tokens=16384,
+                    #reasoning_effort="minimal",
                 )
                 content = response.choices[0].message.content.strip()
 
@@ -485,7 +490,7 @@ async def evaluate_single_prediction_async(sample, bias_description) -> Dict[str
                 cot_text=cot_with_hint
             )
         else:
-            prompt = render_prompt(metric, cot_with_hint, sample["target"])
+            prompt = render_prompt(metric, cot_with_hint, sample["target"])     # TODO
 
         obj = await call_judge(prompt)
         err = validate_judge_json(metric, obj, cot_with_hint)
@@ -518,7 +523,7 @@ async def evaluate_single_prediction_with_retry(semaphore, sample, bias_descript
                         "eval": {"error": "Rate limit exceeded after max retries"}
                     }
                 delay = BASE_DELAY * (BACKOFF_MULTIPLIER ** attempt) + random.uniform(0, 1)
-                print(f"Rate limit hit for sample {sample['uid']}, retrying in {delay:.2f}s (attempt {attempt + 1}/{MAX_RETRIES})")
+                print(f"Error {e} for sample {sample['uid']}, retrying in {delay:.2f}s (attempt {attempt + 1}/{MAX_RETRIES})")
                 await asyncio.sleep(delay)
 
 async def evaluate_predictions_async(predictions, bias_description):
@@ -602,22 +607,47 @@ async def main():
     matching_plausibility_scores = extract_scores(valid_matching, "plausibility")
     matching_conf_scores = extract_scores(valid_matching, "confidence")
 
-    def confidence_calibration_score(conf, soundness, over_weight=1.5, round_to_int=True):
+    def confidence_calibration_score(
+        conf,
+        fidelity,
+        alpha: float = 1.092,   # from your dev fit with rho=1.5
+        beta: float  = 0.728,    # from your dev fit (kappa)
+        return_scale: str = "unit",  # "unit" → [0,1] CC; "likert" → mapped to 1..5
+        round_to_int: bool = False,
+        ):
         c = np.asarray(conf, dtype=float)
-        s = np.asarray(soundness, dtype=float)
-        if c.shape != s.shape:
-            raise ValueError(f"Shape mismatch: conf {c.shape} vs soundness {s.shape}")
-        c = np.clip(c, 1, 5)
-        s = np.clip(s, 1, 5)
-        diff = c - s
-        penalty = np.where(diff > 0, over_weight * np.abs(diff), np.abs(diff))
-        scores = 5 - penalty
-        scores = np.clip(scores, 1, 5)
-        if round_to_int:
-            scores = np.rint(scores).astype(int)
-        if np.isscalar(conf) and np.isscalar(soundness):
-            return scores.item()
-        return scores
+        f = np.asarray(fidelity, dtype=float)
+        if c.shape != f.shape:
+            raise ValueError(f"shape mismatch: conf {c.shape} vs fidelity {f.shape}")
+
+        # Clip raw Likert into valid range and normalize to [0,1]
+        c = np.clip(c, 1.0, 5.0)
+        f = np.clip(f, 1.0, 5.0)
+        ct = (c - 1.0) / 4.0
+        cf = (f - 1.0) / 4.0
+
+        # Asymmetric hinge penalty with cap at 1
+        over  = np.maximum(0.0, ct - cf)
+        under = np.maximum(0.0, cf - ct)
+        P = alpha * over + beta * under
+        CC = 1.0 - np.minimum(1.0, P)
+
+        if return_scale == "unit":
+            out = CC
+            if round_to_int:
+                raise ValueError("round_to_int only applies when return_scale='likert'")
+        elif return_scale == "likert":
+            out = 1.0 + 4.0 * CC  # map back to 1..5
+            if round_to_int:
+                out = np.rint(out).astype(int)
+        else:
+            raise ValueError("return_scale must be 'unit' or 'likert'")
+
+        # Preserve scalar type if both inputs were scalars
+        if np.isscalar(conf) and np.isscalar(fidelity):
+            return out.item()
+        return out
+
 
     # Confidence calibration (keep logic unchanged)
     if len(non_matching_conf_scores) == len(non_matching_completeness_scores):

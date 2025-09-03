@@ -20,6 +20,7 @@ import re
 import json
 import argparse
 from typing import Any, Dict, Optional
+import random
 
 import numpy as np
 from PIL import Image
@@ -750,6 +751,9 @@ def run(args):
 
     print("Formatting data...")
     formatted = [format_data(s, args.model_name, args.modification, args.leak_correct_answer) for s in dataset]
+    # random shuffle
+    random.seed(42)
+    random.shuffle(formatted)
 
     print(f"Loading model {args.model_name}...")
     backend = InferenceBackend(args.model_name, device=device)
