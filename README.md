@@ -17,8 +17,9 @@
 
 ### Approach
 <p align="center">
-<img width="600" alt="image" src="https://github.com/user-attachments/assets/a04af026-3c76-4870-89a5-a931af0eb0a3" />
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/17574ab6-f0e4-4120-8d57-2065e90c2967" />
 </p>
+
 
 ### Abstract
 Vision-Language Models (VLMs) often produce chain-of-thought (CoT) explanations that sound plausible yet fail to reflect the underlying decision process, undermining trust in high-stakes clinical use. Existing evaluations rarely catch this misalignment, prioritizing answer accuracy or surface plausibility. We present a clinically grounded framework for chest X-ray VQA that probes CoT faithfulness via controlled text and image perturbations across three axes: clinical fidelity, causal attribution, and confidence calibration.
