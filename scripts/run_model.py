@@ -379,9 +379,9 @@ def format_data(sample: Dict[str, Any], model_name: str, modification: Optional[
     Prepares messages and stores both raw and preprocessed image.
     Also constructs the user text (with hint injection if selected).
     """
-    question = sample["question"]
-    target = sample["target"]
-    qtype = sample["question_type"]
+    question = sample["Question"]
+    target = sample["Answer"]
+    qtype = sample["Type"]
 
     # Base normalization
     img = prepare_grayscale_image(sample["Image"])
@@ -628,7 +628,6 @@ class InferenceBackend:
                 top_p=None,
                 num_beams=1,
                 max_new_tokens=1024,
-                use_cache=True
             )
             decoded = self.tokenizer.decode(output_ids[0], skip_special_tokens=True)
             return decoded[:-8] if len(decoded) >= 8 else decoded
@@ -732,7 +731,7 @@ def run(args):
 
     if args.modification not in ["none", None]:
         uid_to_image = {sample["UID"]: sample["Image"] for sample in dataset}
-        input_path = "../results/{args.model_name}_predictions.json".format(args=args)
+        input_path = "../results/{args.model_name}/base_predictions.json".format(args=args)
         base_predictions = load_base_predictions(input_path)
 
         for sample in base_predictions:

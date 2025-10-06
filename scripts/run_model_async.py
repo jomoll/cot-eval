@@ -753,7 +753,7 @@ async def run_async(args):
 
     if args.modification not in ["none", None]:
         uid_to_image = {sample["UID"]: sample["Image"] for sample in dataset}
-        input_path = "../results/{args.model_name}_predictions.json".format(args=args)
+        input_path = "../results/{args.model_name}/base_predictions.json".format(args=args)
         base_predictions = load_base_predictions(input_path)
 
         for sample in base_predictions:
@@ -872,8 +872,8 @@ def parse_args():
                    help="If set, hints/ROI will point to the true target where applicable")
 
     # Async options
-    p.add_argument("--max-concurrency", type=int, default=8, help="Max concurrent in-flight generations")
-    p.add_argument("--max-retries", type=int, default=5, help="Max retries for rate-limited API calls")
+    p.add_argument("--max-concurrency", type=int, default=16, help="Max concurrent in-flight generations")
+    p.add_argument("--max-retries", type=int, default=500, help="Max retries for rate-limited API calls")
     p.add_argument("--base-delay", type=float, default=1.0, help="Base delay seconds for backoff")
     p.add_argument("--backoff-multiplier", type=float, default=2.0, help="Exponential backoff multiplier")
 
