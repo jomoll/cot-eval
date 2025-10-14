@@ -7,6 +7,9 @@
   Models using Multimodal Perturbations
 </h1>
 </div>
+<p align="center">
+📝 <a href="https://arxiv.org/abs/2510.11196" target="_blank">Paper</a> • 🤗 <a href="https://huggingface.co/datasets/jomoll/TAIX-VQA" target="_blank">Dataset</a> • 💻 <a href="https://github.com/jomoll/cot-eval" target="_blank">Github</a> • 🌐 <a href="https://jomoll.github.io/faithfulness/" target="_blank">Project</a>
+</p>
 <div align="center">
 <h3>
   [Submitted to ML4H 2025]
@@ -58,3 +61,15 @@ Run evaluation
 ```bash
 python evaluate.py --evaluation_model "meta-llama/Llama-3.3-70B-Instruct" --model_name "google/medgemma-4b-it" --leak-correct-answer --modification vb_hm
 ```
+
+## ✏️ Citation
+If you find this work useful, please cite:
+
+```
+@article{evaluating-2025,
+  title={Evaluating Reasoning Faithfulness in Medical Vision-Language Models using Multimodal Perturbations},
+  author={Moll, Johannes and Graf, Markus and Lemke, Tristan and Lenhart, Nicolas and Truhn, Daniel and Delbrouck, Jean-Benoit and Pan, Jiazhen and Rueckert, Daniel and Adams, Lisa C. and Bressem, Keno K.},
+  journal={arXiv preprint arXiv:2510.11196},
+  url={https://arxiv.org/abs/2510.11196},
+  year={2025}
+}
