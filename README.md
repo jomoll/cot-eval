@@ -8,7 +8,7 @@
 </h1>
 </div>
 <p align="center">
-📝 <a href="https://arxiv.org/abs/2510.11196" target="_blank">Paper</a> • 🤗 <a href="https://huggingface.co/datasets/jomoll/TAIX-VQA" target="_blank">Dataset</a> • 💻 <a href="https://github.com/jomoll/cot-eval" target="_blank">Github</a> • 🌐 <a href="https://jomoll.github.io/faithfulness/" target="_blank">Project</a>
+📝 <a href="https://arxiv.org/abs/2510.11196" target="_blank">Paper</a> • 🤗 <a href="https://huggingface.co/datasets/jomoll/TAIX-VQA" target="_blank">Dataset</a> • 🌐 <a href="https://jomoll.github.io/faithfulness/" target="_blank">Project</a>
 </p>
 <div align="center">
 <h3>
