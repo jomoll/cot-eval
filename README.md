@@ -12,7 +12,7 @@
 </p>
 <div align="center">
 <h3>
-  [Submitted to ML4H 2025]
+  [Accepted to ML4H 2025]
 </h3>
 </div>
 <div align="center">
