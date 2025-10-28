@@ -11,19 +11,17 @@
 📝 <a href="https://arxiv.org/abs/2510.11196" target="_blank">Paper</a> • 🤗 <a href="https://huggingface.co/datasets/jomoll/TAIX-VQA" target="_blank">Dataset</a> • 🌐 <a href="https://jomoll.github.io/faithfulness/" target="_blank">Project</a>
 </p>
 <div align="center">
-<h3>
-  [Accepted to ML4H 2025]
-</h3>
 </div>
 <div align="center">
 </div>
 
 ### News
-<div align="center">
-  [Oct25] ⚠️ <em>Reader study results coming soon.</em>
-  
-  [Oct25] 🏆 Our paper was accepted to ML4H 2025.
+<div align="left">
+  <strong>[2025-10-28]</strong> 🏆 <strong>Paper accepted to ML4H 2025.</strong><br>
+  <strong>[2025-10-28]</strong> 🤗 <strong>Chest X-ray VQA dataset released on Hugging Face.</strong> <a href="https://huggingface.co/datasets/jomoll/TAIX-VQA" target="_blank">Dataset</a><br>
+  <strong>[2025-10-28]</strong> ⚠️ <em>Reader study results coming soon.</em> 
 </div>
+
 
 
 ### Approach
