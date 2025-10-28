@@ -18,6 +18,14 @@
 <div align="center">
 </div>
 
+### News
+<div align="center">
+  [Oct25] ⚠️ <em>Reader study results coming soon.</em>
+  
+  [Oct25] 🏆 Our paper was accepted to ML4H 2025.
+</div>
+
+
 ### Approach
 <p align="center">
 <img width="600" alt="image" src="https://github.com/user-attachments/assets/17574ab6-f0e4-4120-8d57-2065e90c2967" />
